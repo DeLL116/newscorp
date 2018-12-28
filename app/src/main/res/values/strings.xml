@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">News Corp Demo - Kotlin</string>
+    <string name="api_base_url" translatable="false">https://jsonplaceholder.typicode.com/</string>
+    <string name="cont_desc_img_thumb">Image Thumbnail</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
