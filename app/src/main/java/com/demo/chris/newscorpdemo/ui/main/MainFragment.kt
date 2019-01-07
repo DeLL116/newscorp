@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
-import com.demo.chris.newscorpdemo.ui.adapters.PhotosItemAdapter
+import com.demo.chris.newscorpdemo.ui.adapters.PhotoAlbumAdapter
 import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
 
@@ -20,7 +20,7 @@ class MainFragment : Fragment() {
 
     private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
 
-    private val adapterClickListener = object : PhotosItemAdapter.OnItemClickListener {
+    private val adapterClickListener = object : PhotoAlbumAdapter.OnItemClickListener {
         override fun onItemClick(albumPhoto: AlbumPhoto) {
             Timber.d("Clicked photo with ID %s", albumPhoto.id.toString())
 
@@ -61,7 +61,7 @@ class MainFragment : Fragment() {
 
     private fun updateAdapter(photoAlbum: PhotoAlbum) {
         if (rv_list_photos.adapter == null) {
-            rv_list_photos.adapter = PhotosItemAdapter(
+            rv_list_photos.adapter = PhotoAlbumAdapter(
                 photoAlbum,
                 this.context,
                 adapterClickListener

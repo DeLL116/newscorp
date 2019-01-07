@@ -19,17 +19,17 @@ import kotlinx.android.synthetic.main.photos_item_layout.view.*
 import timber.log.Timber
 import java.lang.Exception
 
-class PhotosItemAdapter(
+class PhotoAlbumAdapter(
     private val photoAlbum: PhotoAlbum,
     private val context: Context?,
     private val onItemClickListener: OnItemClickListener?
-) : RecyclerView.Adapter<PhotosItemAdapter.ImageHolder>() {
+) : RecyclerView.Adapter<PhotoAlbumAdapter.ImageHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(albumPhoto: AlbumPhoto)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotosItemAdapter.ImageHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoAlbumAdapter.ImageHolder {
         return ImageHolder(LayoutInflater.from(context).inflate(R.layout.photos_item_layout, parent, false))
     }
 
