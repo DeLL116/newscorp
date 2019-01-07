@@ -120,6 +120,8 @@ class DetailFragment : Fragment() {
             }
         }
 
+        // TODO :: NOTICE HOW ABOVE BUNDLE BUILDING IS DIFFERENT THAN BELOW BUNDLE BUILDING
+
         /**
          * Builds a bundle which provides this fragment with
          * the ID (key) to an [AlbumPhoto] object.
