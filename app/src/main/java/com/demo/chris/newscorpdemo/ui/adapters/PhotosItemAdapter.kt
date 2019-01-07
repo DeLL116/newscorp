@@ -34,7 +34,7 @@ class PhotosItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
-        val photosForPos = photoAlbum.photosList.values.toMutableList()[position]
+        val photosForPos = photoAlbum.photoAlbumMap.values.toMutableList()[position]
         holder.bindData(photosForPos, onItemClickListener)
     }
 
@@ -52,7 +52,7 @@ class PhotosItemAdapter(
     }
 
     override fun getItemCount(): Int {
-        return photoAlbum.photosList.size
+        return photoAlbum.photoAlbumMap.size
     }
 
     class ImageHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

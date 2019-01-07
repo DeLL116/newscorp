@@ -43,7 +43,7 @@ class DetailFragment : Fragment() {
         // Set the observer on ViewModel's LiveData. This Observer will be notified
         // when the underlying data in the ViewModel has changed.
         photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
-            val albumPhoto: AlbumPhoto? = it.photosList[photoKey?.toInt()]
+            val albumPhoto: AlbumPhoto? = it.photoAlbumMap[photoKey?.toInt()]
             loadAlbumPhoto(albumPhoto)
         })
     }
