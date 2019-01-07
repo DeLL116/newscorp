@@ -40,7 +40,7 @@ class MainFragment : Fragment() {
 
         // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
         // retrieved from the network.
-        photoAlbumViewModel = ViewModelProviders.of(this.activity!!).get(PhotoAlbumViewModel::class.java)
+        photoAlbumViewModel = ViewModelProviders.of(requireActivity()).get(PhotoAlbumViewModel::class.java)
 
         // Create the LayoutManager for the RecyclerView
         rv_list_photos.layoutManager = LinearLayoutManager(activity)

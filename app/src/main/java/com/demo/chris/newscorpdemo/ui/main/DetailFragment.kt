@@ -58,7 +58,7 @@ class DetailFragment : Fragment() {
 
         // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
         // retrieved from the network.
-        photoAlbumViewModel = ViewModelProviders.of(this.activity!!).get(PhotoAlbumViewModel::class.java)
+        photoAlbumViewModel = ViewModelProviders.of(requireActivity()).get(PhotoAlbumViewModel::class.java)
 
         // Set the observer on ViewModel's LiveData. This Observer will be notified
         // when the underlying data in the ViewModel has changed.
