@@ -5,24 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 
 import com.demo.chris.newscorpdemo.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
+import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
+import kotlinx.android.synthetic.main.fragment_detail.*
 
 class DetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
+
+    private var photoKey: String? = null
+    private var albumPhoto: AlbumPhoto? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            photoKey = it.getString(ARG_ALBUM_PHOTO_KEY)
         }
     }
 
@@ -34,7 +35,37 @@ class DetailFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_detail, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
+        // retrieved from the network.
+        photoAlbumViewModel = ViewModelProviders.of(this.activity!!).get(PhotoAlbumViewModel::class.java)
+        // Set the observer on ViewModel's LiveData. This Observer will be notified
+        // when the underlying data in the ViewModel has changed.
+        photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
+            val albumPhoto: AlbumPhoto? = it.photosList[photoKey?.toInt()]
+            loadAlbumPhoto(albumPhoto)
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.title = albumPhoto?.title
+    }
+
+    private fun loadAlbumPhoto(albumPhoto: AlbumPhoto?) {
+        this.albumPhoto = albumPhoto
+
+        // Load the image from the network
+        detail_image.loadNetworkImage(albumPhoto?.url)
+
+        // Set texts (action bar title...etc)
+        activity?.title = albumPhoto?.title
+    }
+
     companion object {
+        const val ARG_ALBUM_PHOTO_KEY = "albumPhotoKey"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -45,11 +76,10 @@ class DetailFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(albumPhotoKey: String) =
             DetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(ARG_ALBUM_PHOTO_KEY, albumPhotoKey)
                 }
             }
     }

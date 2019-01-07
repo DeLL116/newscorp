@@ -40,7 +40,7 @@ class PhotoAlbumRepo {
         // Instantiate the LiveData object that is returned to the observer
         val photoAlbumLiveData = MutableLiveData<PhotoAlbum>()
 
-        // TODO :: Create helper function to create a WebService request
+        // TODO :: Use Dagger to create a WebService requests
         val webservice =
             NewsCorpDemoApplication.instance.retroNetWorker.createWebService(NewsCorpApiService::class.java)
 
@@ -52,7 +52,7 @@ class PhotoAlbumRepo {
 
             override fun onResponse(call: Call<List<AlbumPhoto>>, response: Response<List<AlbumPhoto>>) {
                 // Create a new PhotoAlbum from the network response
-                val photoAlbum = PhotoAlbum(response.body()!!)
+                val photoAlbum = PhotoAlbum(response.body()!!.map { it.id to it }.toMap() as LinkedHashMap<Int, AlbumPhoto>)
 
                 // Cache the retrieved data
                 photoAlbumCache.cache.value = photoAlbum

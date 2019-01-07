@@ -23,16 +23,10 @@ class MainFragment : Fragment() {
     private val adapterClickListener = object : PhotosItemAdapter.OnItemClickListener {
         override fun onItemClick(albumPhoto: AlbumPhoto) {
             Timber.d("Clicked photo with ID %s", albumPhoto.id.toString())
-            findNavController().navigate(R.id.detail_action)
+            val bundle = Bundle()
+            bundle.putString(DetailFragment.ARG_ALBUM_PHOTO_KEY, albumPhoto.id.toString())
+            findNavController().navigate(R.id.detail_action, bundle)
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
-        // retrieved from the network.
-        photoAlbumViewModel = ViewModelProviders.of(this).get(PhotoAlbumViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -42,6 +36,10 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
+        // retrieved from the network.
+        photoAlbumViewModel = ViewModelProviders.of(this.activity!!).get(PhotoAlbumViewModel::class.java)
+
         // Create the LayoutManager for the RecyclerView
         rv_list_photos.layoutManager = LinearLayoutManager(activity)
 
@@ -50,6 +48,13 @@ class MainFragment : Fragment() {
         photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
             updateAdapter(it)
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Reset the base title in the ToolBar whenever resuming this fragment
+        activity?.title = getString(R.string.app_name)
     }
 
     private fun updateAdapter(photoAlbum: PhotoAlbum) {

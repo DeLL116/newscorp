@@ -19,8 +19,11 @@ import kotlinx.android.synthetic.main.photos_item_layout.view.*
 import timber.log.Timber
 import java.lang.Exception
 
-class PhotosItemAdapter(private val photoAlbum: PhotoAlbum, val context: Context?, private val onItemClickListener: OnItemClickListener?)
-    : RecyclerView.Adapter<PhotosItemAdapter.ImageHolder>() {
+class PhotosItemAdapter(
+    private val photoAlbum: PhotoAlbum,
+    private val context: Context?,
+    private val onItemClickListener: OnItemClickListener?
+) : RecyclerView.Adapter<PhotosItemAdapter.ImageHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(albumPhoto: AlbumPhoto)
@@ -31,7 +34,7 @@ class PhotosItemAdapter(private val photoAlbum: PhotoAlbum, val context: Context
     }
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
-        val photosForPos = photoAlbum.photosList[position]
+        val photosForPos = photoAlbum.photosList.values.toMutableList()[position]
         holder.bindData(photosForPos, onItemClickListener)
     }
 

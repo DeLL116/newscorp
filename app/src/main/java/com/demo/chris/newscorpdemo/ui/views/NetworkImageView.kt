@@ -11,10 +11,10 @@ class NetworkImageView @JvmOverloads constructor(context: Context, attrs: Attrib
     : ImageView(context, attrs, defStyleAttr) {
 
     /**
-     * Loads an image from the network with Picasso with [com.squareup.picasso.RequestCreator.fit]
+     * Loads an image from the network with Picasso defaults
      */
-    fun loadNetworkImage(imageUrl: String, target: Target) {
-        Picasso.get().load(imageUrl).fit().into(target)
+    fun loadNetworkImage(imageUrl: String?) {
+        Picasso.get().load(imageUrl).into(this)
     }
 
     /**

@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     tools:context="com.demo.chris.newscorpdemo.ui.main.DetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <com.demo.chris.newscorpdemo.ui.views.NetworkImageView
+            android:id="@+id/detail_image"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/img_detail_height"
+            android:contentDescription="@string/cont_desc_img_detail"/>
 
 </FrameLayout>
