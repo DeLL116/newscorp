@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
@@ -17,15 +18,12 @@ import timber.log.Timber
 
 class MainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
     private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
 
     private val adapterClickListener = object : PhotosItemAdapter.OnItemClickListener {
         override fun onItemClick(albumPhoto: AlbumPhoto) {
             Timber.d("Clicked photo with ID %s", albumPhoto.id.toString())
+            findNavController().navigate(R.id.detail_action)
         }
     }
 
@@ -35,12 +33,6 @@ class MainFragment : Fragment() {
         // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
         // retrieved from the network.
         photoAlbumViewModel = ViewModelProviders.of(this).get(PhotoAlbumViewModel::class.java)
-
-        // Set the observer on ViewModel's LiveData. This Observer will be notified
-        // when the underlying data in the ViewModel has changed.
-        photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
-                updateAdapter(it)
-        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -52,6 +44,12 @@ class MainFragment : Fragment() {
 
         // Create the LayoutManager for the RecyclerView
         rv_list_photos.layoutManager = LinearLayoutManager(activity)
+
+        // Set the observer on ViewModel's LiveData. This Observer will be notified
+        // when the underlying data in the ViewModel has changed.
+        photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
+            updateAdapter(it)
+        })
     }
 
     private fun updateAdapter(photoAlbum: PhotoAlbum) {
