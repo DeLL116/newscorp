@@ -1,7 +1,7 @@
 package com.demo.chris.newscorpdemo
 
 import android.app.Application
-import com.nochino.retronetworking.RetroNetWorker
+import com.nochino.support.networking.RetroNetWorker
 import timber.log.Timber
 
 class NewsCorpDemoApplication: Application() {

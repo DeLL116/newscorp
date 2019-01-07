@@ -7,8 +7,8 @@ import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 
-class NetworkImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    ImageView(context, attrs, defStyleAttr) {
+class NetworkImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : ImageView(context, attrs, defStyleAttr) {
 
     /**
      * Loads an image from the network with Picasso with [com.squareup.picasso.RequestCreator.fit]

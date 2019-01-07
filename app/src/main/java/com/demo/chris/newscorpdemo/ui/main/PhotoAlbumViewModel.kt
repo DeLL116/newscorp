@@ -8,7 +8,7 @@ import com.demo.chris.newscorpdemo.data.photos.PhotoAlbumRepo
 
 class PhotoAlbumViewModel : ViewModel() {
 
-    var photoAlbum = MutableLiveData<PhotoAlbum>()
+    private var photoAlbum = MutableLiveData<PhotoAlbum>()
 
     private val photoAlbumRepo = PhotoAlbumRepo()
 

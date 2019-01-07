@@ -21,6 +21,20 @@ class MainFragment : Fragment() {
 
     private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
+        // retrieved from the network.
+        photoAlbumViewModel = ViewModelProviders.of(this).get(PhotoAlbumViewModel::class.java)
+
+        // Set the observer on ViewModel's LiveData. This Observer will be notified
+        // when the underlying data in the ViewModel has changed.
+        photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
+                updateAdapter(it)
+        })
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
@@ -30,17 +44,11 @@ class MainFragment : Fragment() {
 
         // Create the LayoutManager for the RecyclerView
         rv_list_photos.layoutManager = LinearLayoutManager(activity)
+    }
 
-        // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
-        // retrieved from the network.
-        photoAlbumViewModel = ViewModelProviders.of(this).get(PhotoAlbumViewModel::class.java)
-
-        // Set the observer on ViewModel's LiveData. This Observer will be notified
-        // when the underlying data in the ViewModel has changed.
-        photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
-            if (it.photosList != null) {
-                rv_list_photos.adapter = PhotosItemAdapter(it.photosList!!, this.context)
-            }
-        })
+    private fun updateAdapter(photoAlbum: PhotoAlbum) {
+        if (rv_list_photos.adapter == null) {
+            rv_list_photos.adapter = PhotosItemAdapter(photoAlbum, this.context)
+        }
     }
 }

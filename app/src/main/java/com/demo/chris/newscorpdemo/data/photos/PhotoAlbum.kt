@@ -5,4 +5,4 @@ package com.demo.chris.newscorpdemo.data.photos
  *
  * @author Chris Delli Santi
  */
-data class PhotoAlbum(var photosList: List<AlbumPhoto>?)
+data class PhotoAlbum(var photosList: List<AlbumPhoto>)

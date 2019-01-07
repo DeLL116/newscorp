@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.widget.ContentLoadingProgressBar
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
+import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
 import com.demo.chris.newscorpdemo.ui.views.NetworkImageView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.photos_item_layout.view.*
 import timber.log.Timber
 import java.lang.Exception
 
-class PhotosItemAdapter(private val photosList: List<AlbumPhoto>, val context: Context?) :
+class PhotosItemAdapter(private val photoAlbum: PhotoAlbum, val context: Context?) :
     RecyclerView.Adapter<PhotosItemAdapter.ImageHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotosItemAdapter.ImageHolder {
@@ -26,7 +27,7 @@ class PhotosItemAdapter(private val photosList: List<AlbumPhoto>, val context: C
     }
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
-        val photosForPos = photosList[position]
+        val photosForPos = photoAlbum.photosList[position]
         holder.bindData(photosForPos)
     }
 
@@ -44,7 +45,7 @@ class PhotosItemAdapter(private val photosList: List<AlbumPhoto>, val context: C
     }
 
     override fun getItemCount(): Int {
-        return photosList.size
+        return photoAlbum.photosList.size
     }
 
     class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
