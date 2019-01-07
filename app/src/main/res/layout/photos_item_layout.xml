@@ -7,8 +7,6 @@
                                    android:layout_height="@dimen/list_card_height"
                                    android:layout_margin="10dp"
                                    android:foreground="?attr/selectableItemBackground"
-                                   android:clickable="true"
-                                   android:focusable="true"
                                    app:cardCornerRadius="4dp">
 
     <LinearLayout
