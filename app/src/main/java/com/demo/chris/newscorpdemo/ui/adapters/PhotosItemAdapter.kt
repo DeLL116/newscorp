@@ -19,8 +19,12 @@ import kotlinx.android.synthetic.main.photos_item_layout.view.*
 import timber.log.Timber
 import java.lang.Exception
 
-class PhotosItemAdapter(private val photoAlbum: PhotoAlbum, val context: Context?) :
-    RecyclerView.Adapter<PhotosItemAdapter.ImageHolder>() {
+class PhotosItemAdapter(private val photoAlbum: PhotoAlbum, val context: Context?, private val onItemClickListener: OnItemClickListener?)
+    : RecyclerView.Adapter<PhotosItemAdapter.ImageHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(albumPhoto: AlbumPhoto)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotosItemAdapter.ImageHolder {
         return ImageHolder(LayoutInflater.from(context).inflate(R.layout.photos_item_layout, parent, false))
@@ -28,7 +32,7 @@ class PhotosItemAdapter(private val photoAlbum: PhotoAlbum, val context: Context
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
         val photosForPos = photoAlbum.photosList[position]
-        holder.bindData(photosForPos)
+        holder.bindData(photosForPos, onItemClickListener)
     }
 
     override fun onViewAttachedToWindow(holder: ImageHolder) {
@@ -48,7 +52,7 @@ class PhotosItemAdapter(private val photoAlbum: PhotoAlbum, val context: Context
         return photoAlbum.photosList.size
     }
 
-    class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ImageHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private lateinit var albumPhoto: AlbumPhoto
 
         private val photoItemRoot: ViewGroup = itemView.photo_item_root
@@ -61,8 +65,10 @@ class PhotosItemAdapter(private val photoAlbum: PhotoAlbum, val context: Context
         private val photoIdText: TextView = itemView.photo_item_id_tv
         private val imageUrlText: TextView = itemView.photo_item_image_url_tv
 
+        private var externalPhotoItemClickListener: OnItemClickListener? = null
         private var photoItemClickListener = View.OnClickListener {
             Timber.d("Clicked photo with ID %s", albumPhoto.id.toString())
+            externalPhotoItemClickListener?.onItemClick(albumPhoto)
         }
 
         private val photoThumbTarget = object : Target {
@@ -103,7 +109,7 @@ class PhotosItemAdapter(private val photoAlbum: PhotoAlbum, val context: Context
             }
         }
 
-        fun bindData(albumPhoto: AlbumPhoto) {
+        fun bindData(albumPhoto: AlbumPhoto, albumPhotoClickListener: OnItemClickListener?) {
             // Set the data associated with ImageHolder instance
             this.albumPhoto = albumPhoto
 
@@ -113,6 +119,9 @@ class PhotosItemAdapter(private val photoAlbum: PhotoAlbum, val context: Context
             // has been retrieved. This prevents potential issues with clicking an
             // ImageView before its data has been retrieved.
             photoItemRoot.setOnClickListener(photoItemClickListener)
+
+            // Assign any external click listener provided to the adapter instance
+            externalPhotoItemClickListener = albumPhotoClickListener
         }
 
         private fun setTexts(albumPhoto: AlbumPhoto) {
