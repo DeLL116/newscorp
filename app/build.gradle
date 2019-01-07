@@ -33,6 +33,13 @@ android {
     }
 }
 
+// Currently used for enabling easy Parcelable support
+// ---> See AlbumPhoto.kt
+// ---> https://kotlinlang.org/docs/tutorials/android-plugin.html#enabling-parcelable-support
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 

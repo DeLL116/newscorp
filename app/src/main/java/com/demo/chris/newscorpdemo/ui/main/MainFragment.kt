@@ -23,9 +23,11 @@ class MainFragment : Fragment() {
     private val adapterClickListener = object : PhotosItemAdapter.OnItemClickListener {
         override fun onItemClick(albumPhoto: AlbumPhoto) {
             Timber.d("Clicked photo with ID %s", albumPhoto.id.toString())
-            val bundle = Bundle()
-            bundle.putString(DetailFragment.ARG_ALBUM_PHOTO_KEY, albumPhoto.id.toString())
-            findNavController().navigate(R.id.detail_action, bundle)
+
+            // TODO :: Test providing as data object and as string
+
+//            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(albumPhoto))
+            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(albumPhoto.id.toString()))
         }
     }
 

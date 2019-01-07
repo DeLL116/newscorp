@@ -1,8 +1,14 @@
 package com.demo.chris.newscorpdemo.data.photos
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
- * A Photo Album data model. It contains a Linked HashMap (for order retention) of [AlbumPhoto] object.
+ * Parcelable data model object class which describes a Photo Album.
  *
- * @author Chris Delli Santi
+ * It contains a Linked HashMap (for order retention) of [AlbumPhoto] objects.
+ * @author Chris DelliSanti
  */
-data class PhotoAlbum(var photoAlbumMap: LinkedHashMap<Int, AlbumPhoto>)
+@Parcelize
+data class PhotoAlbum(var photoAlbumMap: LinkedHashMap<Int, AlbumPhoto>
+) : Parcelable

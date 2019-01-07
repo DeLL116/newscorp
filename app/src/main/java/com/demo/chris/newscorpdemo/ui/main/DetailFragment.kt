@@ -17,13 +17,21 @@ class DetailFragment : Fragment() {
 
     private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
 
-    private var photoKey: String? = null
+    private var photoKeyId: String? = null
     private var albumPhoto: AlbumPhoto? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            photoKey = it.getString(ARG_ALBUM_PHOTO_KEY)
+            // Check if an ID has been provided
+            photoKeyId = it.getString(ARG_ALBUM_PHOTO_ID_KEY)
+
+            // Check if an AlbumPhoto object has been provided
+            albumPhoto = it.getParcelable(ARG_ALBUM_PHOTO_KEY) as? AlbumPhoto
+
+
+            //TODO :: Test that both are provided and that both ID's match
+
         }
     }
 
@@ -35,16 +43,28 @@ class DetailFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_detail, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // AlbumPhoto object was provided to fragment
+        // ...show immediately, but still observe for changes
+        if (albumPhoto != null) {
+            onAlbumPhotoRetrieved(albumPhoto)
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
         // retrieved from the network.
         photoAlbumViewModel = ViewModelProviders.of(this.activity!!).get(PhotoAlbumViewModel::class.java)
+
         // Set the observer on ViewModel's LiveData. This Observer will be notified
         // when the underlying data in the ViewModel has changed.
         photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
-            val albumPhoto: AlbumPhoto? = it.photoAlbumMap[photoKey?.toInt()]
-            loadAlbumPhoto(albumPhoto)
+            val albumPhoto: AlbumPhoto? = it.photoAlbumMap[photoKeyId?.toInt()]
+            onAlbumPhotoRetrieved(albumPhoto)
         })
     }
 
@@ -53,28 +73,64 @@ class DetailFragment : Fragment() {
         activity?.title = albumPhoto?.title
     }
 
-    private fun loadAlbumPhoto(albumPhoto: AlbumPhoto?) {
+    private fun onAlbumPhotoRetrieved(albumPhoto: AlbumPhoto?) {
+        if (albumPhoto != null) {
+            setAlbumPhoto(albumPhoto)
+        } else {
+            onLoadError()
+        }
+    }
+
+    private fun setAlbumPhoto(albumPhoto: AlbumPhoto) {
+
         this.albumPhoto = albumPhoto
 
         // Load the image from the network
-        detail_image.loadNetworkImage(albumPhoto?.url)
+        detail_image.loadNetworkImage(albumPhoto.url)
 
         // Set texts (action bar title...etc)
-        activity?.title = albumPhoto?.title
+        activity?.title = albumPhoto.title
+    }
+
+    // TODO :: Create abstraction
+    private fun onLoadError() {
+
     }
 
     companion object {
-        const val ARG_ALBUM_PHOTO_KEY = "albumPhotoKey"
 
         /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DetailFragment.
+         * Fragment bundle arg key to an AlbumPhoto object
          */
-        // TODO: Rename and change types and number of parameters
+        private const val ARG_ALBUM_PHOTO_KEY = "albumPhotoKey"
+
+        /**
+         * Fragment bundle arg key to the ID of an AlbumPhoto
+         * (which can be retrieved from a [PhotoAlbumViewModel] data source)
+         */
+        const val ARG_ALBUM_PHOTO_ID_KEY = "albumPhotoIdKey"
+
+        /**
+         * Builds a bundle which provides this fragment with
+         * an [AlbumPhoto]
+         */
+        fun buildBundle(albumPhoto: AlbumPhoto): Bundle {
+            return Bundle().apply {
+                putParcelable(ARG_ALBUM_PHOTO_KEY, albumPhoto)
+            }
+        }
+
+        /**
+         * Builds a bundle which provides this fragment with
+         * the ID (key) to an [AlbumPhoto] object.
+         */
+        @JvmStatic
+        fun buildBundle(albumPhotoIdKey: String) =
+            Bundle().apply {
+                putString(ARG_ALBUM_PHOTO_ID_KEY, albumPhotoIdKey)
+            }
+
+        // TODO: Doc
         @JvmStatic
         fun newInstance(albumPhotoKey: String) =
             DetailFragment().apply {
@@ -82,5 +138,12 @@ class DetailFragment : Fragment() {
                     putString(ARG_ALBUM_PHOTO_KEY, albumPhotoKey)
                 }
             }
+
+        // TODO: Doc
+        @JvmStatic
+        fun newInstance(albumPhoto: AlbumPhoto) =
+                DetailFragment().apply {
+                    arguments = buildBundle(albumPhoto)
+                }
     }
 }
