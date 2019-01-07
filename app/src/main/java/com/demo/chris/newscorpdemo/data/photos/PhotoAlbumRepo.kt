@@ -2,7 +2,7 @@ package com.demo.chris.newscorpdemo.data.photos
 
 import androidx.lifecycle.MutableLiveData
 import com.demo.chris.newscorpdemo.NewsCorpDemoApplication
-import com.demo.chris.newscorpdemo.api.NewsCorpApiService
+import com.demo.chris.newscorpdemo.api.ApiPhotos
 import com.nochino.support.networking.DataCache
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,6 +20,9 @@ class PhotoAlbumRepo {
      */
     private var photoAlbumCache: DataCache<MutableLiveData<PhotoAlbum>> =
         DataCache(MutableLiveData())
+
+    // TODO :: Use Dagger
+    private val webservice = NewsCorpDemoApplication.instance.retroNetWorker.createWebService(ApiPhotos::class.java)
 
     /**
      * @param ignoreCache True to ignore any cache data and explicitly request the
@@ -39,10 +42,6 @@ class PhotoAlbumRepo {
 
         // Instantiate the LiveData object that is returned to the observer
         val photoAlbumLiveData = MutableLiveData<PhotoAlbum>()
-
-        // TODO :: Use Dagger to create a WebService requests
-        val webservice =
-            NewsCorpDemoApplication.instance.retroNetWorker.createWebService(NewsCorpApiService::class.java)
 
         // Call to the webservice to retrieve the PhotoAlbum Data
         webservice.getPhotos().enqueue(object : Callback<List<AlbumPhoto>> {
