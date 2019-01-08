@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Parcelable data model object class which describes a Photo in a Photo Album
+ * Parcelable data model object class which describes a Photo
+ *
  * @author Chris DelliSanti
  */
 @Parcelize
