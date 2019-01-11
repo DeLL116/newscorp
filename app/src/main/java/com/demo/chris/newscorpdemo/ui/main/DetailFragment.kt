@@ -13,6 +13,15 @@ import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
 import kotlinx.android.synthetic.main.fragment_detail.*
 
+
+/**
+ * Fragment that can display an [AlbumPhoto]. The [AlbumPhoto] can be provided
+ * directly to the fragment, or the id of an [AlbumPhoto] can be provided and
+ * a request to retrieve a [PhotoAlbum] and parse the provided [AlbumPhoto]
+ * from the [PhotoAlbum].
+ *
+ * TODO :: Write test for when a [PhotoAlbum] is request, but the provided ID of an [AlbumPhoto] is not found in the returned data set
+ */
 class DetailFragment : Fragment() {
 
     private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
@@ -46,31 +55,32 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // AlbumPhoto object was provided to fragment
-        // ...show immediately, but still observe for changes
-        if (albumPhoto != null) {
-            onAlbumPhotoRetrieved(albumPhoto)
-        }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
         // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
         // retrieved from the network.
         photoAlbumViewModel = ViewModelProviders.of(requireActivity()).get(PhotoAlbumViewModel::class.java)
 
+        // Null-check here because an AlbumPhoto object can be provided to
+        // an instance of this fragment...in which case we can show it immediately
+        // (but still observe the ViewModel for changes)
+        if (albumPhoto != null) {
+            onAlbumPhotoRetrieved(albumPhoto)
+        } else {
+            fetchPhotoAlbum()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.title = albumPhoto?.title
+    }
+
+    private fun fetchPhotoAlbum() {
         // Set the observer on ViewModel's LiveData. This Observer will be notified
         // when the underlying data in the ViewModel has changed.
         photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
             val albumPhoto: AlbumPhoto? = it.photoAlbumMap[photoKeyId?.toInt()]
             onAlbumPhotoRetrieved(albumPhoto)
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        activity?.title = albumPhoto?.title
     }
 
     private fun onAlbumPhotoRetrieved(albumPhoto: AlbumPhoto?) {
@@ -85,8 +95,13 @@ class DetailFragment : Fragment() {
 
         this.albumPhoto = albumPhoto
 
-        // Load the image from the network
-        detail_image.loadNetworkImage(albumPhoto.url)
+        swappableImageCardView.loadNetworkImage(albumPhoto.url)
+        swappableImageCardView.setData(
+            albumPhoto.title,
+            albumPhoto.albumId.toString(),
+            albumPhoto.id.toString(),
+            albumPhoto.url
+        )
 
         // Set texts (action bar title...etc)
         activity?.title = albumPhoto.title
@@ -97,6 +112,7 @@ class DetailFragment : Fragment() {
 
     }
 
+    @Suppress("unused")
     companion object {
 
         /**

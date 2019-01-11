@@ -1,6 +1,8 @@
 package com.demo.chris.newscorpdemo.data.photos
 
+import android.net.Uri
 import android.os.Parcelable
+import com.demo.chris.newscorpdemo.ui.views.PathSegmentModifier
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -18,4 +20,18 @@ data class AlbumPhoto (
     // TODO :: url? Maybe use photoUrl?
     @SerializedName("url") val url: String,
     @SerializedName("thumbnailUrl") val thumbnailUrl: String
-) : Parcelable
+) : Parcelable {
+
+    fun getThumbnailPathSegmentIdentifier(): PathSegmentModifier {
+        return PathSegmentModifier(
+            thumbnailUrl,
+            mapOf(PathSegmentModifier.widthPathSegment to Uri.parse(thumbnailUrl).pathSegments[0])
+        )
+    }
+
+    fun getUrlPathSegmentIdentifier(): PathSegmentModifier {
+        return PathSegmentModifier(url,
+            mapOf(PathSegmentModifier.widthPathSegment to Uri.parse(url).pathSegments[0])
+        )
+    }
+}

@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/photo_item_root"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/list_card_height"
-        android:layout_margin="10dp"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="4dp">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+            android:id="@+id/card_content_holder_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
         <com.demo.chris.newscorpdemo.ui.views.ImageLoadingLayout
-                android:id="@+id/photo_image_loading_layout"
-                android:layout_width="@dimen/img_thumb_width"
-                android:layout_height="@dimen/img_thumb_width"/>
+                android:id="@+id/card_image_loading_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         <LinearLayout
-                android:id="@+id/photo_item_text_container"
+                android:id="@+id/card_text_container"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/img_thumb_height"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="4">
 
             <TextView
-                    android:id="@+id/photo_item_title_tv"
+                    android:id="@+id/card_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -38,9 +33,10 @@
                     tools:text="photoTitle"/>
 
             <TextView
-                    android:id="@+id/photo_item_album_id_tv"
+                    android:id="@+id/card_desc_1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -48,9 +44,10 @@
                     tools:text="albumId"/>
 
             <TextView
-                    android:id="@+id/photo_item_id_tv"
+                    android:id="@+id/card_desc_2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -58,9 +55,10 @@
                     tools:text="photoId"/>
 
             <TextView
-                    android:id="@+id/photo_item_image_url_tv"
+                    android:id="@+id/card_desc_3"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -71,4 +69,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</merge>

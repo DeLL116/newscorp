@@ -25,9 +25,8 @@ class MainFragment : Fragment() {
             Timber.d("Clicked photo with ID %s", albumPhoto.id.toString())
 
             // TODO :: Test providing as data object and as string
-
-//            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(albumPhoto))
-            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(albumPhoto.id.toString()))
+            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(albumPhoto))
+//            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(albumPhoto.id.toString()))
         }
     }
 
