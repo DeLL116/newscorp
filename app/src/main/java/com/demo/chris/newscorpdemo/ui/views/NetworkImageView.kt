@@ -44,7 +44,7 @@ class NetworkImageView: ImageView {
         if (target != null) currentRequest?.into(target) else currentRequest?.into(this)
     }
 
-    fun loadImageFromPathSegmentModifier(pathSegmentModifier: PathSegmentModifier, target: Target) {
+    fun loadNetworkImageWithPathSegmentModifier(pathSegmentModifier: PathSegmentModifier, target: Target) {
 
         val widthHeightModifier = mapOf(
             PathSegmentModifier.widthPathSegment to width.toString(),

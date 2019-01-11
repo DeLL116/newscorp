@@ -68,7 +68,6 @@ class ImageLoadingLayout : RelativeLayout {
                 .setDuration(200) // TODO :: Allow XML attribute setting for duration
                 .start()
         }
-
     }
 
     fun resetNetworkImage() {
@@ -123,6 +122,9 @@ class ImageLoadingLayout : RelativeLayout {
 
     fun loadNetworkImage(pathSegmentIdentifier: PathSegmentModifier) {
         resetNetworkImage()
-        image_loading_layout_network_image_view.loadImageFromPathSegmentModifier(pathSegmentIdentifier, photoThumbTarget)
+        image_loading_layout_network_image_view.loadNetworkImageWithPathSegmentModifier(
+            pathSegmentIdentifier,
+            photoThumbTarget
+        )
     }
 }

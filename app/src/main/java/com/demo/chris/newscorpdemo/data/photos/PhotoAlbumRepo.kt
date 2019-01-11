@@ -51,8 +51,9 @@ class PhotoAlbumRepo {
 
             override fun onResponse(call: Call<List<AlbumPhoto>>, response: Response<List<AlbumPhoto>>) {
                 // Create a new PhotoAlbum from the network response
-                val photoAlbum = PhotoAlbum(response.body()!!.map { it.id to it }.toMap() as LinkedHashMap<Int, AlbumPhoto>)
-
+                val photoAlbum = PhotoAlbum(
+                    response.body()?.map { it.id to it }?.toMap() as LinkedHashMap<Int, AlbumPhoto>
+                )
                 // Cache the retrieved data
                 photoAlbumCache.cache.value = photoAlbum
 
