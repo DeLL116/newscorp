@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
-import com.demo.chris.newscorpdemo.ui.views.PathSegmentModifier
-import com.demo.chris.newscorpdemo.ui.views.SwappableImageCardView
-import kotlinx.android.synthetic.main.swappable_image_card_view.view.*
+import com.nochino.support.androidui.views.ImageLoadingLayout
+import com.nochino.support.androidui.views.PathSegmentModifier
+import com.nochino.support.androidui.views.SwappableImageCardView
 import kotlinx.android.synthetic.main.recycler_view_card_item_layout.view.*
 import timber.log.Timber
 
@@ -40,7 +40,9 @@ class PhotoAlbumAdapter(
         // When the ViewHolder is recycled reset the ImageView in
         // the holder so previously loaded images aren't visible
         // during fast list flinging
-        holder.itemView.card_image_loading_layout.resetNetworkImage()
+        // Note...not using Kotlin synthetic view because of kotlin bug with library projects
+        // --->https://issuetracker.google.com/issues/78547457
+        holder.itemView.findViewById<ImageLoadingLayout>(R.id.card_image_loading_layout).resetNetworkImage()
     }
 
     override fun getItemCount(): Int {

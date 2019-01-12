@@ -3,9 +3,7 @@
 
     <dimen name="list_card_height">100dp</dimen>
 
-    <dimen name="img_thumb_width">100dp</dimen>
-    <dimen name="img_thumb_height">100dp</dimen>
-
     <dimen name="img_detail_height">300dp</dimen>
     <dimen name="img_detail_width">300dp</dimen>
+
 </resources>

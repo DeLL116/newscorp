@@ -2,8 +2,8 @@ package com.demo.chris.newscorpdemo.data.photos
 
 import android.net.Uri
 import android.os.Parcelable
-import com.demo.chris.newscorpdemo.ui.views.PathSegmentModifier
 import com.google.gson.annotations.SerializedName
+import com.nochino.support.androidui.views.PathSegmentModifier
 import kotlinx.android.parcel.Parcelize
 
 /**

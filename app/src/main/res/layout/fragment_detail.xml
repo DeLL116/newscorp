@@ -7,7 +7,7 @@
         android:orientation="vertical"
         tools:context="com.demo.chris.newscorpdemo.ui.main.DetailFragment">
 
-    <com.demo.chris.newscorpdemo.ui.views.SwappableImageCardView
+    <com.nochino.support.androidui.views.SwappableImageCardView
             android:id="@+id/swappableImageCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
