@@ -9,7 +9,6 @@ import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
 import com.nochino.support.androidui.views.ImageLoadingLayout
-import com.nochino.support.androidui.views.PathSegmentModifier
 import com.nochino.support.androidui.views.SwappableImageCardView
 import kotlinx.android.synthetic.main.recycler_view_card_item_layout.view.*
 import timber.log.Timber
@@ -63,7 +62,10 @@ class PhotoAlbumAdapter(
             // Set the data associated with ImageHolder instance
             this.albumPhoto = albumPhoto
 
-            setImagePathSegmentModifier(albumPhoto.getThumbnailPathSegmentIdentifier())
+            swappableImageCardView.loadNetworkImage(
+                albumPhoto.getPathSegmentModifier(albumPhoto.thumbnailUrl)
+            )
+
             setTexts(albumPhoto)
 
             // Set the click listener on the ImageHolder root only after the data
@@ -78,10 +80,6 @@ class PhotoAlbumAdapter(
         @Suppress("unused")
         private fun setImageUrl(networkImageUrl: String) {
             swappableImageCardView.loadNetworkImage(networkImageUrl)
-        }
-
-        private fun setImagePathSegmentModifier(pathSegmentModifier: PathSegmentModifier) {
-            swappableImageCardView.loadNetworkImage(pathSegmentModifier)
         }
 
         private fun setTexts(albumPhoto: AlbumPhoto) {

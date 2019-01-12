@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.nochino.support.androidui.views.PathSegmentModifier
+import com.nochino.support.androidui.views.PathSegmentable
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -20,7 +21,21 @@ data class AlbumPhoto (
     // TODO :: url? Maybe use photoUrl?
     @SerializedName("url") val url: String,
     @SerializedName("thumbnailUrl") val thumbnailUrl: String
-) : Parcelable {
+) : Parcelable, PathSegmentable {
+
+    // *** [Begin] PathSegmentable Implementations ***
+    override val pathSegmentsMap: Map<String, PathSegmentModifier>
+        get() {
+            return mapOf(
+                thumbnailUrl to getThumbnailPathSegmentIdentifier(),
+                url to getUrlPathSegmentIdentifier()
+            )
+        }
+
+    override fun getPathSegmentModifier(pathString: String): PathSegmentModifier? {
+        return pathSegmentsMap[pathString]
+    }
+    // *** [End] PathSegmentable Implementations ***
 
     fun getThumbnailPathSegmentIdentifier(): PathSegmentModifier {
         return PathSegmentModifier(
