@@ -15,7 +15,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
-        // TODO :: Extract to more secure keystore parsing
+        // TODO :: Create new Keystore(and passwords) + Extract to more secure keystore parsing
         demoReleaseConfig {
             keyAlias 'Lateralus'
             keyPassword 'spiral0ut'
