@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib_RetroNetworking/lib_RetroNetworking.iml" filepath="$PROJECT_DIR$/lib_RetroNetworking/lib_RetroNetworking.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib_androidui/lib_androidui.iml" filepath="$PROJECT_DIR$/lib_androidui/lib_androidui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/newscorp.iml" filepath="$PROJECT_DIR$/newscorp.iml" />
+    </modules>
+  </component>
+</project>
