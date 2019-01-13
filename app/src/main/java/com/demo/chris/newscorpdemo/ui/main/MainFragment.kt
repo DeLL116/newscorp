@@ -1,18 +1,19 @@
 package com.demo.chris.newscorpdemo.ui.main
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
-import com.demo.chris.newscorpdemo.ui.adapters.PhotoAlbumAdapter
+import com.demo.chris.newscorpdemo.ui.adapters.AlbumPhotoAdapter
+import com.nochino.support.androidui.recyclerview.BaseRecyclerViewClickListener
 import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
 
@@ -20,13 +21,13 @@ class MainFragment : Fragment() {
 
     private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
 
-    private val adapterClickListener = object : PhotoAlbumAdapter.OnItemClickListener {
-        override fun onItemClick(albumPhoto: AlbumPhoto) {
-            Timber.d("Clicked photo with ID %s", albumPhoto.id.toString())
+    private val adapterClickListener = object : BaseRecyclerViewClickListener<AlbumPhoto> {
+        override fun onItemClicked(item: AlbumPhoto) {
+            Timber.d("Clicked photo with ID %s", item.id.toString())
 
             // TODO :: Test providing as data object and as string
-            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(albumPhoto))
-//            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(albumPhoto.id.toString()))
+            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item))
+//            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item.id.toString()))
         }
     }
 
@@ -60,11 +61,12 @@ class MainFragment : Fragment() {
 
     private fun updateAdapter(photoAlbum: PhotoAlbum) {
         if (rv_list_photos.adapter == null) {
-            rv_list_photos.adapter = PhotoAlbumAdapter(
-                photoAlbum,
-                this.context,
-                adapterClickListener
-            )
+            this.context?.let {
+                rv_list_photos.adapter = AlbumPhotoAdapter(it).apply {
+                    setItems(photoAlbum.photoAlbumMap.values.toList())
+                    setListener(adapterClickListener)
+                }
+            }
         }
     }
 }

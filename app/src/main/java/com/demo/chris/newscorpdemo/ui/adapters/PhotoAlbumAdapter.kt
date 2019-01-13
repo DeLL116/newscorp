@@ -14,6 +14,7 @@ import com.nochino.support.androidui.views.SwappableImageCardView
 import kotlinx.android.synthetic.main.recycler_view_card_item_layout.view.*
 import timber.log.Timber
 
+@Deprecated("Use AlbumPhotoAdapter")
 class PhotoAlbumAdapter(
     private val photoAlbum: PhotoAlbum,
     private val context: Context?,
