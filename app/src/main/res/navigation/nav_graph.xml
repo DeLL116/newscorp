@@ -3,7 +3,20 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/nav_graph"
-            app:startDestination="@id/mainFragment">
+            app:startDestination="@id/splashFragment">
+
+    <fragment android:id="@+id/splashFragment"
+              android:name="com.demo.chris.newscorpdemo.ui.main.SplashFragment"
+              android:label="SplashFragment"
+              tools:layout="@layout/fragment_splash">
+
+        <action android:id="@+id/action_splashFragment_to_mainFragment"
+                app:destination="@id/mainFragment"
+                app:popEnterAnim="@anim/anim_set_slide_in_left"
+                app:popExitAnim="@anim/anim_set_slide_out_right"
+                app:enterAnim="@anim/anim_set_slide_in_right"
+                app:exitAnim="@anim/anim_set_slide_out_left"/>
+    </fragment>
 
     <fragment android:id="@+id/mainFragment"
               android:name="com.demo.chris.newscorpdemo.ui.main.MainFragment"
