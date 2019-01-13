@@ -67,6 +67,7 @@ class MainFragment : Fragment() {
                     setListener(adapterClickListener)
                 }
             }
+            rv_list_photos.scheduleLayoutAnimation()
         }
     }
 }
