@@ -3,6 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+// Currently used for enabling easy Parcelable support
+// ---> See AlbumPhoto.kt
+// ---> https://kotlinlang.org/docs/tutorials/android-plugin.html#enabling-parcelable-support
+androidExtensions {
+    experimental = true
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -32,13 +39,6 @@ android {
     }
 }
 
-// Currently used for enabling easy Parcelable support
-// ---> See AlbumPhoto.kt
-// ---> https://kotlinlang.org/docs/tutorials/android-plugin.html#enabling-parcelable-support
-androidExtensions {
-    experimental = true
-}
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // --> Local modules
@@ -46,6 +46,7 @@ dependencies {
     implementation project(path: ':lib_androidui')
     // --> Testing
     testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
