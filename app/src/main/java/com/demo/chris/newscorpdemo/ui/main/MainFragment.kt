@@ -43,7 +43,7 @@ class MainFragment : Fragment() {
         photoAlbumViewModel = ViewModelProviders.of(requireActivity()).get(PhotoAlbumViewModel::class.java)
 
         // Create the LayoutManager for the RecyclerView
-        rv_list_photos.layoutManager = LinearLayoutManager(activity)
+        main_fragment_rv.layoutManager = LinearLayoutManager(activity)
 
         // Set the observer on ViewModel's LiveData. This Observer will be notified
         // when the underlying data in the ViewModel has changed.
@@ -60,14 +60,14 @@ class MainFragment : Fragment() {
     }
 
     private fun updateAdapter(photoAlbum: PhotoAlbum) {
-        if (rv_list_photos.adapter == null) {
+        if (main_fragment_rv.adapter == null) {
             this.context?.let {
-                rv_list_photos.adapter = AlbumPhotoAdapter(it).apply {
+                main_fragment_rv.adapter = AlbumPhotoAdapter(it).apply {
                     setItems(photoAlbum.photoAlbumMap.values.toList())
                     setListener(adapterClickListener)
                 }
             }
-            rv_list_photos.scheduleLayoutAnimation()
+            main_fragment_rv.scheduleLayoutAnimation()
         }
     }
 }
