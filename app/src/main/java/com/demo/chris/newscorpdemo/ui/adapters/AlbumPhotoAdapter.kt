@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
-import com.nochino.support.androidui.recyclerview.BaseRecyclerViewClickListener
-import com.nochino.support.androidui.recyclerview.BaseViewHolder
-import com.nochino.support.androidui.recyclerview.adapters.BaseRecyclerViewAdapter
+import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
+import com.nochino.support.androidui.views.recyclerview.BaseViewHolder
+import com.nochino.support.androidui.views.recyclerview.adapters.BaseRecyclerViewAdapter
 import com.nochino.support.androidui.views.ImageLoadingLayout
 import com.nochino.support.androidui.views.SwappableImageCardView
 import kotlinx.android.synthetic.main.recycler_view_card_item_layout.view.*
