@@ -15,7 +15,9 @@
                 app:popEnterAnim="@anim/anim_set_slide_in_left"
                 app:popExitAnim="@anim/anim_set_slide_out_right"
                 app:enterAnim="@anim/anim_set_slide_in_right"
-                app:exitAnim="@anim/anim_set_slide_out_left"/>
+                app:exitAnim="@anim/anim_set_slide_out_left"
+                app:popUpTo="@id/splashFragment"
+                app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment android:id="@+id/mainFragment"
