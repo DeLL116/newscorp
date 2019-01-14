@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">News Corp Demo - Kotlin</string>
+    <string name="app_name">News Corp Demo</string>
+    <string name="app_desc">Kotlin</string>
     <string name="api_base_url" translatable="false">https://jsonplaceholder.typicode.com/</string>
 </resources>
