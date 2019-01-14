@@ -1,15 +1,10 @@
 package com.demo.chris.newscorpdemo.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.demo.chris.newscorpdemo.R
+import com.nochino.support.androidui.activities.BaseMobileToolbarActivity
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
-
-        // TODO : Create Abstract class for ToolBar Activity
-        setSupportActionBar(findViewById(R.id.base_activity_toolbar))
+class MainActivity : BaseMobileToolbarActivity() {
+    override fun getLayoutId(): Int {
+        return R.layout.main_activity
     }
 }

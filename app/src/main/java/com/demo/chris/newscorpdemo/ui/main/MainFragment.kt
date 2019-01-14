@@ -13,6 +13,7 @@ import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
 import com.demo.chris.newscorpdemo.ui.adapters.AlbumPhotoAdapter
+import com.google.android.material.appbar.AppBarLayout
 import com.nochino.support.androidui.recyclerview.BaseRecyclerViewClickListener
 import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
@@ -34,6 +35,10 @@ class MainFragment : Fragment() {
             // Open DetailFragment by passing the ID of an AlbumPhoto.
             // The PhotoAlbum will be retrieved and the AlbumPhoto of the ID will be displayed
 //            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item.id.toString()))
+
+            // TODO :: Extract logic to expand the toolbar when leaving a fragment
+            // TODO :: Bug --> Use Kotlin Synthetic View https://issuetracker.google.com/issues/78547457
+            activity?.findViewById<AppBarLayout>(R.id.base_app_bar)?.setExpanded(true, true)
         }
     }
 

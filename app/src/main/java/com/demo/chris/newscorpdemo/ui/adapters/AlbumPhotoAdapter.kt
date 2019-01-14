@@ -26,7 +26,7 @@ class AlbumPhotoAdapter(context: Context)
         // so previously loaded images aren't visible during fast list flinging
 
         // Note...not using Kotlin synthetic view because of kotlin bug with library projects
-        // --->https://issuetracker.google.com/issues/78547457
+        // TODO :: Bug --> Use Kotlin Synthetic View https://issuetracker.google.com/issues/78547457
         holder.itemView.findViewById<ImageLoadingLayout>(R.id.card_image_loading_layout).resetNetworkImage()
     }
 }
