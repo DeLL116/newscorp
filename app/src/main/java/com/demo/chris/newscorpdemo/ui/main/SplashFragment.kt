@@ -13,8 +13,6 @@ class SplashFragment : BaseSplashFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // TODO :: Move navigation responsibility to BaseSplashFragment
         nextFragmentRunnable = Runnable {
             findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
         }
@@ -22,18 +20,15 @@ class SplashFragment : BaseSplashFragment() {
 
     override fun onResume() {
         super.onResume()
-        // TODO :: Move navigation responsibility to BaseSplashFragment
         view?.postDelayed(nextFragmentRunnable, 1500)
     }
 
     override fun onPause() {
         super.onPause()
-        // TODO :: Move navigation responsibility to BaseSplashFragment
         view?.removeCallbacks(nextFragmentRunnable)
     }
 
     override fun onDestroyView() {
-        // TODO :: Move navigation responsibility to BaseSplashFragment
         nextFragmentRunnable = null
         super.onDestroyView()
     }

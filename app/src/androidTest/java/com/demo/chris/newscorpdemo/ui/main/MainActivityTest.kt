@@ -26,9 +26,11 @@ class MainActivityTest {
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
+    lateinit var mainActivity: MainActivity
+
     @Before
     fun setUp() {
-        // Currently no op
+        mainActivity = mActivityTestRule.activity
     }
 
     @After
@@ -38,9 +40,7 @@ class MainActivityTest {
 
     @Test
     fun rvItemClicksTest() {
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        // TODO :: Use Idling Resource!
         Thread.sleep(5500)
 
         for (i in 0..5) {
@@ -54,14 +54,11 @@ class MainActivityTest {
     @Test
     fun rvScrollToLastItemTest() {
 
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        // TODO :: Use Idling Resource!
         Thread.sleep(5500)
 
         //TODO :: Use onData!
-
-        val adapter = mActivityTestRule.activity.findViewById<RecyclerView>(R.id.main_fragment_rv).adapter
+        val adapter = mainActivity.findViewById<RecyclerView>(R.id.main_fragment_rv)?.adapter
                 as BaseRecyclerViewAdapter<*,*,*>
 
         onView(withId(R.id.main_fragment_rv))

@@ -39,8 +39,7 @@ class DetailFragment : Fragment() {
             albumPhoto = it.getParcelable(ARG_ALBUM_PHOTO_KEY) as? AlbumPhoto
 
 
-            //TODO :: Test that both are provided and that both ID's match
-
+            //TODO :: Test if both are provided, and that both ID's match!
         }
     }
 
@@ -136,7 +135,7 @@ class DetailFragment : Fragment() {
             }
         }
 
-        // TODO :: NOTICE HOW ABOVE BUNDLE BUILDING IS DIFFERENT THAN BELOW BUNDLE BUILDING
+        // *** NOTICE HOW ABOVE BUNDLE BUILDING IS DIFFERENT THAN BELOW BUNDLE BUILDING ***
 
         /**
          * Builds a bundle which provides this fragment with
