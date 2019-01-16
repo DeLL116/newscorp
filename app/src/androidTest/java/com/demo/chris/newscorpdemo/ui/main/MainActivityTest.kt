@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -51,8 +52,8 @@ class MainActivityTest {
 
     @Test
     fun rvItemClicksTest() {
-        // TODO :: Use Idling Resource!
-        Thread.sleep(2500)
+
+        registerIdlingResource()
 
         for (i in 0..5) {
             onView(withId(R.id.main_fragment_rv))
@@ -62,11 +63,28 @@ class MainActivityTest {
         }
     }
 
+    // TODO :: Use IdlingCounter in Activity
+    private fun registerIdlingResource() {
+
+        // Wait for the fragment animation to finish
+        // TODO :: Remove and synchronize idling counter with activity
+        Thread.sleep(1000)
+
+        // Find the main fragment.....since Navigation is being used
+        // the primaryNavigationFragment is the current fragment of the nav_host_fragment
+        val mainFragment = mainActivity
+            .supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment)
+            ?.childFragmentManager
+            ?.primaryNavigationFragment as MainFragment
+
+            IdlingRegistry.getInstance().register(mainFragment.mIdlingRes)
+    }
+
     @Test
     fun rvScrollToLastItemTest() {
 
-        // TODO :: Use Idling Resource!
-        Thread.sleep(2500)
+        registerIdlingResource()
 
         val adapter = mainActivity.findViewById<RecyclerView>(R.id.main_fragment_rv)?.adapter
                 as BaseRecyclerViewAdapter<*,*,*>
@@ -88,8 +106,9 @@ class MainActivityTest {
 
     @Test
     fun rvTotalCountTest() {
-        // TODO :: Use Idling Resource!
-        Thread.sleep(2500)
+
+        registerIdlingResource()
+
         onView(withId(R.id.main_fragment_rv)).check(
             matches(
                 RecyclerViewMatchers.withItemCount(5000)

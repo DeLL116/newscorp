@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.test.espresso.idling.CountingIdlingResource
+import com.demo.chris.newscorpdemo.BuildConfig
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
@@ -19,6 +22,29 @@ import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
 
 class MainFragment : Fragment() {
+
+    /**
+     * [CountingIdlingResource] used in instrumentation tests to wait for photoAlbumViewModel
+     * to return its data. This will be null in non-debuggable builds and only instantiated
+     * in Android test implementations (as of writing this).
+     *
+     * Lazily initialized so it is only constructed when needed (Debug builds) by the implementation tests
+     */
+    // TODO :: Make instance usage better only for testing (maybe remove from production code entirely?)
+    @Suppress("ConstantConditionIf")
+    @VisibleForTesting
+    val mIdlingRes: CountingIdlingResource? by lazy {
+        return@lazy if (BuildConfig.DEBUG) {
+            // Debuggable build...create the object for testing
+            CountingIdlingResource("MainFragment")
+        } else {
+            // Non-debuggable build...don't create the object
+            null
+        }.also {
+            // Log if the object was created or not (sanity check)
+            Timber.i("mIdlingResource created = %s", it != null)
+        }
+    }
 
     private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
 
@@ -58,7 +84,14 @@ class MainFragment : Fragment() {
 
         // Set the observer on ViewModel's LiveData. This Observer will be notified
         // when the underlying data in the ViewModel has changed.
-        photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
+        photoAlbumViewModel.fetchData().apply {
+            // Whenever data is fetched increment the idlingResource
+            // Should be null in production builds
+            mIdlingRes?.increment()
+        }.observe(this, Observer<PhotoAlbum> {
+            // Whenever data is returned decrement the idlingResource
+            // Should be null in production builds
+            mIdlingRes?.decrement()
             updateAdapter(it)
         })
     }
@@ -78,6 +111,8 @@ class MainFragment : Fragment() {
                     setListener(adapterClickListener)
                 }
             }
+
+            // Animate the layout animation (see xml)
             main_fragment_rv.scheduleLayoutAnimation()
         }
     }
