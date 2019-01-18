@@ -17,6 +17,7 @@ import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
 import com.demo.chris.newscorpdemo.ui.adapters.AlbumPhotoAdapter
 import com.google.android.material.appbar.AppBarLayout
+import com.nochino.support.androidui.activities.BaseActivity
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
 import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
@@ -24,16 +25,16 @@ import timber.log.Timber
 class MainFragment : Fragment() {
 
     /**
-     * [CountingIdlingResource] used in instrumentation tests to wait for photoAlbumViewModel
-     * to return its data. This will be null in non-debuggable builds and only instantiated
+     * [CountingIdlingResource] used in instrumentation tests to wait for the photoAlbumViewModel
+     * to return its data. This will be null in non-debuggable builds (Production) and only instantiated
      * in Android test implementations (as of writing this).
      *
-     * Lazily initialized so it is only constructed when needed (Debug builds) by the implementation tests
+     * Lazily initialized so it is only constructed when needed (in Debug builds by the instrumentation tests)
      */
     // TODO :: Make instance usage better only for testing (maybe remove from production code entirely?)
     @Suppress("ConstantConditionIf")
     @VisibleForTesting
-    val mIdlingRes: CountingIdlingResource? by lazy {
+    val photoAlbumIdlingResource: CountingIdlingResource? by lazy {
         return@lazy if (BuildConfig.DEBUG) {
             // Debuggable build...create the object for testing
             CountingIdlingResource("MainFragment")
@@ -42,7 +43,7 @@ class MainFragment : Fragment() {
             null
         }.also {
             // Log if the object was created or not (sanity check)
-            Timber.i("mIdlingResource created = %s", it != null)
+            Timber.i("idlingResource created = %s", it != null)
         }
     }
 
@@ -87,17 +88,20 @@ class MainFragment : Fragment() {
         photoAlbumViewModel.fetchData().apply {
             // Whenever data is fetched increment the idlingResource
             // Should be null in production builds
-            mIdlingRes?.increment()
+            photoAlbumIdlingResource?.increment()
         }.observe(this, Observer<PhotoAlbum> {
             // Whenever data is returned decrement the idlingResource
             // Should be null in production builds
-            mIdlingRes?.decrement()
             updateAdapter(it)
+            photoAlbumIdlingResource?.decrement()
         })
     }
 
     override fun onResume() {
         super.onResume()
+
+        // TODO :: Move to "Staging Debug" Flavor class variant (don't keep in production code)!
+        BaseActivity.activityViewModelIdlingResource?.decrementIdleResourceCounter()
 
         // Reset the base title in the ToolBar whenever resuming this fragment
         activity?.title = getString(R.string.app_name)

@@ -1,18 +1,16 @@
 package com.demo.chris.newscorpdemo.ui.main
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
 import kotlinx.android.synthetic.main.fragment_detail.*
-
 
 /**
  * Fragment that can display an [AlbumPhoto]. The [AlbumPhoto] can be provided

@@ -58,7 +58,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // --> Android Support / UI
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'              //ViewModel / LiveData
     implementation 'com.google.android.material:material:1.1.0-alpha02'
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
