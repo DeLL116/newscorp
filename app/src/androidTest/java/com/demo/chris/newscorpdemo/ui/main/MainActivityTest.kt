@@ -6,7 +6,6 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -15,7 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.demo.chris.newscorpdemo.R
-import com.nochino.support.androidui.fragments.BaseFragment
+import com.nochino.support.androidui.testing.CountingIdlingResourceViewModel
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -31,7 +30,7 @@ class MainActivityTest {
 
     private lateinit var activityScenario: ActivityScenario<MainActivity>
     private lateinit var mainActivity: MainActivity
-    private lateinit var mainFragmentIdlingResource: IdlingResource
+    private lateinit var activityIdlingResourceViewModel: CountingIdlingResourceViewModel
 
     @Before
     fun setUp() {
@@ -43,20 +42,19 @@ class MainActivityTest {
         activityScenario.onActivity {
             mainActivity = it
 
-            // Get and register the Fragment's IdlingResource.
+            // Get and register the Activity's IdlingResource.
             // Note...the usage of non-null reference to the idlingResource
             // is purposeful here. This should *never* be null in debuggable builds.
             // See CountingIdlingResourceViewModel's lazy initialization of the object
-            // in debuggable builds only!
-            // Increment for RecyclerView adapter set with data
-            mainFragmentIdlingResource = BaseFragment.fragmentViewModelIdlingResource?.getIdlingResource()!!
-            IdlingRegistry.getInstance().register(mainFragmentIdlingResource)
+            // for debuggable builds only!
+            activityIdlingResourceViewModel = mainActivity.activityViewModelIdlingResource!!
+            IdlingRegistry.getInstance().register(activityIdlingResourceViewModel.idlingResource)
         }
     }
 
     @After
     fun tearDown() {
-        IdlingRegistry.getInstance().unregister(mainFragmentIdlingResource)
+        IdlingRegistry.getInstance().unregister(activityIdlingResourceViewModel.idlingResource)
         activityScenario.close()
     }
 
@@ -67,7 +65,7 @@ class MainActivityTest {
         // on the fragment's RecyclerView. This IdlingResource counter is decremented when
         // either the data needed to populate the RecyclerView has been provided to the Fragment
         // and the RecyclerView adapter is populated.
-        BaseFragment.fragmentViewModelIdlingResource?.incrementTestIdleResourceCounter()
+        activityIdlingResourceViewModel.incrementTestIdleResourceCounter()
 
         // Check to ensure the RecyclerView has been displayed
         onRecyclerViewPopulated()

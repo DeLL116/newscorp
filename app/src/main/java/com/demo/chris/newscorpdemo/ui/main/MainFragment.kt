@@ -14,7 +14,7 @@ import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
 import com.demo.chris.newscorpdemo.ui.adapters.AlbumPhotoAdapter
 import com.google.android.material.appbar.AppBarLayout
-import com.nochino.support.androidui.fragments.BaseFragment
+import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelFactory
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
 import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
@@ -85,7 +85,9 @@ class MainFragment : Fragment() {
 
                     // For testing....decrements IdlingResource so Espresso
                     // knows to proceed with testing. See @Before in MainActivityTest.
-                    BaseFragment.fragmentViewModelIdlingResource?.decrementIdleResourceCounter()
+                    CountingIdlingResourceViewModelFactory
+                        .getActivityViewModel(requireActivity())
+                        .decrementIdleResourceCounter()
                 }
             }
 
