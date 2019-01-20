@@ -4,48 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.test.espresso.idling.CountingIdlingResource
-import com.demo.chris.newscorpdemo.BuildConfig
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
 import com.demo.chris.newscorpdemo.ui.adapters.AlbumPhotoAdapter
 import com.google.android.material.appbar.AppBarLayout
-import com.nochino.support.androidui.activities.BaseActivity
+import com.nochino.support.androidui.fragments.BaseFragment
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
 import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
 
 class MainFragment : Fragment() {
-
-    /**
-     * [CountingIdlingResource] used in instrumentation tests to wait for the photoAlbumViewModel
-     * to return its data. This will be null in non-debuggable builds (Production) and only instantiated
-     * in Android test implementations (as of writing this).
-     *
-     * Lazily initialized so it is only constructed when needed (in Debug builds by the instrumentation tests)
-     */
-    // TODO :: Make instance usage better only for testing (maybe remove from production code entirely?)
-    @Suppress("ConstantConditionIf")
-    @VisibleForTesting
-    val photoAlbumIdlingResource: CountingIdlingResource? by lazy {
-        return@lazy if (BuildConfig.DEBUG) {
-            // Debuggable build...create the object for testing
-            CountingIdlingResource("MainFragment")
-        } else {
-            // Non-debuggable build...don't create the object
-            null
-        }.also {
-            // Log if the object was created or not (sanity check)
-            Timber.i("idlingResource created = %s", it != null)
-        }
-    }
 
     private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
 
@@ -88,20 +62,15 @@ class MainFragment : Fragment() {
         photoAlbumViewModel.fetchData().apply {
             // Whenever data is fetched increment the idlingResource
             // Should be null in production builds
-            photoAlbumIdlingResource?.increment()
         }.observe(this, Observer<PhotoAlbum> {
             // Whenever data is returned decrement the idlingResource
             // Should be null in production builds
             updateAdapter(it)
-            photoAlbumIdlingResource?.decrement()
         })
     }
 
     override fun onResume() {
         super.onResume()
-
-        // TODO :: Move to "Staging Debug" Flavor class variant (don't keep in production code)!
-        BaseActivity.activityViewModelIdlingResource?.decrementIdleResourceCounter()
 
         // Reset the base title in the ToolBar whenever resuming this fragment
         activity?.title = getString(R.string.app_name)
@@ -113,6 +82,10 @@ class MainFragment : Fragment() {
                 main_fragment_rv.adapter = AlbumPhotoAdapter(it).apply {
                     setItems(photoAlbum.photoAlbumMap.values.toList())
                     setListener(adapterClickListener)
+
+                    // For testing....decrements IdlingResource so Espresso
+                    // knows to proceed with testing. See @Before in MainActivityTest.
+                    BaseFragment.fragmentViewModelIdlingResource?.decrementIdleResourceCounter()
                 }
             }
 

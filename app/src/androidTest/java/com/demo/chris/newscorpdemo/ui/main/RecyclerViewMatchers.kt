@@ -8,6 +8,7 @@ import org.hamcrest.Matcher
 
 // TODO :: WIP :: https://medium.com/2359media/custom-recyclerview-matcher-and-viewassertion-with-espresso-kotlin-45845c64ab44
 // TODO :: DOC
+// TODO :: Add more custom ViewMatcher tests for the RecyclerView
 class RecyclerViewMatchers {
     companion object {
         fun withItemCount(count: Int): Matcher<View> {
@@ -18,6 +19,10 @@ class RecyclerViewMatchers {
 
                 override fun matchesSafely(item: RecyclerView?): Boolean {
                     return item?.adapter?.itemCount == count
+                }
+
+                override fun describeMismatch(item: Any?, description: Description?) {
+                    description?.appendText("Whoah!") // TODO :: Change and test description
                 }
             }
         }
