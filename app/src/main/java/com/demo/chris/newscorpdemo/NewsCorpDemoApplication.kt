@@ -1,10 +1,10 @@
 package com.demo.chris.newscorpdemo
 
-import android.app.Application
+import com.nochino.support.androidui.AndroidUIApplication
 import com.nochino.support.networking.RetroNetWorker
 import timber.log.Timber
 
-class NewsCorpDemoApplication: Application() {
+class NewsCorpDemoApplication: AndroidUIApplication() {
 
     /**
      * Creates the API object with the base API URL using lazy initialization

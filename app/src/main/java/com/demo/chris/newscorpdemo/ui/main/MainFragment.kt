@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -14,12 +13,13 @@ import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
 import com.demo.chris.newscorpdemo.ui.adapters.AlbumPhotoAdapter
 import com.google.android.material.appbar.AppBarLayout
+import com.nochino.support.androidui.fragments.BaseFragment
 import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelFactory
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
 import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment() {
 
     private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
 
@@ -47,6 +47,14 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.let {
+            // TODO :: Move to "Staging Debug" Flavor class variant (don't keep in production code)!
+            CountingIdlingResourceViewModelFactory.getActivityViewModel(it).decrementIdleResourceCounter()
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -60,12 +68,19 @@ class MainFragment : Fragment() {
         // Set the observer on ViewModel's LiveData. This Observer will be notified
         // when the underlying data in the ViewModel has changed.
         photoAlbumViewModel.fetchData().apply {
-            // Whenever data is fetched increment the idlingResource
-            // Should be null in production builds
+            // Whenever data is fetched...increment the idlingResource
+            CountingIdlingResourceViewModelFactory.getFragmentViewModel(this@MainFragment)
+                .incrementTestIdleResourceCounter()
         }.observe(this, Observer<PhotoAlbum> {
             // Whenever data is returned decrement the idlingResource
             // Should be null in production builds
             updateAdapter(it)
+            // For testing....decrements IdlingResource so Espresso
+            // knows to proceed with testing.
+            // See MainActivityTest.onRecyclerViewPopulated for incrementation
+            CountingIdlingResourceViewModelFactory
+                .getFragmentViewModel(this@MainFragment)
+                .decrementIdleResourceCounter()
         })
     }
 
@@ -82,12 +97,6 @@ class MainFragment : Fragment() {
                 main_fragment_rv.adapter = AlbumPhotoAdapter(it).apply {
                     setItems(photoAlbum.photoAlbumMap.values.toList())
                     setListener(adapterClickListener)
-
-                    // For testing....decrements IdlingResource so Espresso
-                    // knows to proceed with testing. See @Before in MainActivityTest.
-                    CountingIdlingResourceViewModelFactory
-                        .getActivityViewModel(requireActivity())
-                        .decrementIdleResourceCounter()
                 }
             }
 
