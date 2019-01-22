@@ -13,6 +13,7 @@ androidExtensions {
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
+
     defaultConfig {
         applicationId "com.demo.chris.newscorpdemo"
         minSdkVersion 24
@@ -20,7 +21,18 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // lib_androidui has "store" flavor dimensions, but NewsCorpDemo app (currently) does not.
+        // -> Instruct Gradle to use lib_android_ui's "google" flavor dimension as default
+        //    for all app build configurations until NewsCorpDemo needs / defines "store" flavors
+        missingDimensionStrategy 'store', 'google'
+
+        // lib_androidui has "device" flavor dimensions, but NewsCorpDemo app (currently) does not.
+        // -> Instruct Gradle to use lib_android_ui's "phone" flavor dimension as default
+        //    for all app build configurations until NewsCorpDemo needs / defines "device" flavors
+        missingDimensionStrategy 'device', 'phone'
     }
+
     signingConfigs {
         // TODO :: Create new Keystore(and passwords) + Extract to more secure keystore parsing
         demoReleaseConfig {
@@ -30,11 +42,51 @@ android {
             storeFile file('../keystore/newsCorpDemoKeyStore.jks')
         }
     }
+
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
             signingConfig signingConfigs.demoReleaseConfig
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debugRelease {
+            // --------
+            // This build type should *never* be distributed externally!
+            // This build type signs the app with the RELEASE KEY and
+            // also enables debugging!
+            //
+            // Building with the RELEASE key is sometimes needed for debugging
+            // platform-specific use-cases that need to be uploaded to an app-store
+            // service...ie
+            //  - Debugging a real-time in-app-purchase on Amazon's Live App Testing with Amazon's In-App-Billing SDK
+            //  - Debugging a real-time in-app-purchase on Google's Live App Testing with Google's In-App-Billing SDK
+            // --------
+
+            // Copy the debug build type configuration
+            initWith debug
+
+            // Sign the debug build with the release signing configuration
+            signingConfig signingConfigs.demoReleaseConfig
+
+            // Matching fallback should be any debug build variant from accompanying modules
+            matchingFallbacks = ['debug']
+        }
+    }
+
+    flavorDimensions 'api'
+
+    productFlavors {
+        // --> API Flavor Dimension Types for different build platforms
+        //     Prod = Production // Stage = Staging // dev = development
+        prod {
+            dimension "api"
+        }
+        stage {
+            dimension "api"
+        }
+        dev {
+            dimension "api"
         }
     }
 }
@@ -43,8 +95,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // --> Project Modules
-    implementation project(path: ':lib_RetroNetworking')
-    implementation project(path: ':lib_androidui')
+    implementation project(':lib_RetroNetworking')
+    implementation project(':lib_androidui')
 
     // --> Testing
     testImplementation 'junit:junit:4.12'
@@ -76,6 +128,7 @@ dependencies {
     // --> Navigation
     implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha09'
     implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha09'
+
     // --> Other
     implementation 'com.jakewharton.timber:timber:4.7.1'
 }
