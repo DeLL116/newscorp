@@ -14,7 +14,7 @@ ext.configs = [
         targetSdkVersion                    : 28,
         compileSdkVersion                   : 28,
         buildToolsVersion                   : '28.0.3',
-        gradleBuildToolsVersion             : '3.2.1' //TODO Needs upgrade
+        gradleBuildToolsVersion             : '3.3.0'
 ]
 
 ext.libs = [
