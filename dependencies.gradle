@@ -1,0 +1,102 @@
+// Defines library versions.
+//
+// These values are accessed by :
+// - Adding this file to the project's root directory
+// - Referencing the file at the top (first line) of and inside the main
+//   project's top-level build.gradle file as follows :
+//   - apply from: project.file("core_module_dependencies.gradle")
+//   - Note...if these values are defined in a sub-module Project module you must
+//     reference the folder as follows :
+//     - apply from: project.file("pathFolderName/core_module_dependencies.gradle")
+
+ext.configs = [
+        minSdkVersion                       : 24,
+        targetSdkVersion                    : 28,
+        compileSdkVersion                   : 28,
+        buildToolsVersion                   : '28.0.3',
+        gradleBuildToolsVersion             : '3.2.1' //TODO Needs upgrade
+]
+
+ext.libs = [
+        // --> Kotlin
+        kotlinVersion                       : '1.3.11',
+
+        // --> jUnit
+        junitVersion                        : '4.12',
+
+        // --> androidx.test
+        rulesVersion                        : '1.1.1',
+        runnerVersion                       : '1.1.1',
+        coreKtxVersion                      : '1.1.0',
+
+        // --> androidx.test.ext
+        junitAndroidVersion                 : '1.1.0',
+        junitKtxVersion                     : '1.1.0',
+
+        // --> androidx.test.espresso
+        espressoCoreVersion                 : '3.1.1',
+        espressoContribVersion              : '3.1.1',
+        espressoIdlingResourceVersion       : '3.1.1',
+
+        // --> androidx.lifecycle:lifecycle-extensions:
+        lifecycleExtensionsVersion          : '2.1.0-alpha01',
+
+        // --> androidx.legacy:legacy-support-v4:
+        legacySupportV4Version              : '1.0.0',
+
+        // --> androidx.recyclerview:recyclerview:
+        recyclerviewVersion                 : '1.1.0-alpha01',
+
+        // --> androidx.appcompat:appcompat:
+        appcompatVersion                    : '1.1.0-alpha01',
+
+        // --> androidx.cardview:cardview:
+        cardviewVersion                     : '1.0.0',
+
+        // --> androidx.constraintlayout:constraintlayout:
+        constraintLayoutVersion             : '2.0.0-alpha3',
+
+        // --> android.arch.navigation:navigation-ui-ktx:
+        navUiKtxVersion                     : '1.0.0-alpha09',
+
+        // --> android.arch.navigation:navigation-fragment-ktx:
+        navFragmentKtxVersion               : '1.0.0-alpha09',
+
+        // --> com.google.android.material:material:1.1.0-alpha02'
+        googleMaterialVersion               : '1.1.0-alpha02',
+
+        // --> com.jakewharton.timber:timber:
+        timberVersion                       : "4.7.1",
+
+        // --> com.squareup.picasso:picasso:
+        picassoVersion                      : '2.71828',
+
+        // --> com.squareup.leakcanary:leakcanary-android:
+        leakcanaryAndroidVersion            : '1.6.3',
+
+        // --> com.squareup.retrofit2:retrofit:
+        retrofit2Version                    : '2.4.0',
+
+        // --> com.squareup.retrofit2:converter-gson:
+        retrofit2GsonConverterVersion       : '2.4.0',
+
+        // --> com.squareup.retrofit2:adapter-rxjava2:
+        retrofit2AdapterRxjavaVersion       : '2.4.0',
+
+        // --> com.google.dagger:dagger:
+        daggerVersion                       : '2.16',
+
+        // --> com.google.dagger:dagger-android:
+        daggerAndroidVersion                : '2.16',
+
+        // --> com.google.dagger:dagger-android-support:
+        daggerAndroidSupportVersion         : '2.16',
+
+        // --> com.google.dagger:dagger-compiler:
+        daggerCompilerVersion               : '2.16',
+
+        // --> com.google.dagger:dagger-android-processor:2.16
+        daggerAndroidProcessorVersion       : '2.16'
+
+
+]
