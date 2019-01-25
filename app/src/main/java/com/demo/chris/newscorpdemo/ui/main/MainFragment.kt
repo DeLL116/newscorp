@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.nochino.support.androidui.fragments.BaseFragment
 import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelFactory
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
+import com.nochino.support.networking.vo.Resource
+import com.nochino.support.networking.vo.Status
 import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
 
@@ -69,15 +72,25 @@ class MainFragment : BaseFragment() {
         // when the underlying data in the ViewModel has changed.
         photoAlbumViewModel.fetchData().apply {
             // Whenever data is fetched...increment the idlingResource
+            // TODO :: Move to "Staging Debug" Flavor class variant (don't keep in production code)!
             CountingIdlingResourceViewModelFactory.getFragmentViewModel(this@MainFragment)
                 .incrementTestIdleResourceCounter()
-        }.observe(this, Observer<PhotoAlbum> {
+        }.observe(this, Observer<Resource<PhotoAlbum>> {
+
+            // Get the status of the returned observed data
+            // TODO :: Abstract on/handle all observable Resource states!
+            when (it.status) {
+                Status.LOADING -> Toast.makeText(activity, "Loading", Toast.LENGTH_LONG).show()
+                Status.SUCCESS -> it.data?.let { photoAlbum -> updateAdapter(photoAlbum) }
+                Status.ERROR -> Toast.makeText(activity, "Error Loading", Toast.LENGTH_LONG).show()
+            }
+
             // Whenever data is returned decrement the idlingResource
             // Should be null in production builds
-            updateAdapter(it)
             // For testing....decrements IdlingResource so Espresso
             // knows to proceed with testing.
             // See MainActivityTest.onRecyclerViewPopulated for incrementation
+            // TODO :: Move to "Staging Debug" Flavor class variant (don't keep in production code)!
             CountingIdlingResourceViewModelFactory
                 .getFragmentViewModel(this@MainFragment)
                 .decrementIdleResourceCounter()
@@ -92,16 +105,23 @@ class MainFragment : BaseFragment() {
     }
 
     private fun updateAdapter(photoAlbum: PhotoAlbum) {
-        if (main_fragment_rv.adapter == null) {
+        val adapterItems = photoAlbum.photoAlbumMap.values.toList()
+        if (main_fragment_rv?.adapter == null) {
+            // Try to create Adapter the adapter + set the listener
             this.context?.let {
                 main_fragment_rv.adapter = AlbumPhotoAdapter(it).apply {
-                    setItems(photoAlbum.photoAlbumMap.values.toList())
+                    setItems(adapterItems)
                     setListener(adapterClickListener)
+                }.also { albumPhotoAdapter ->
+                    main_fragment_rv.adapter = albumPhotoAdapter
                 }
             }
-
-            // Animate the layout animation (see xml)
-            main_fragment_rv.scheduleLayoutAnimation()
+        } else {
+            (main_fragment_rv.adapter as AlbumPhotoAdapter?)?.setItems(adapterItems)
         }
+
+        // TODO :: Move scheduling layout animation elsewhere
+        // --> It shouldn't happen every time data is set on the adapter
+        main_fragment_rv.scheduleLayoutAnimation()
     }
 }

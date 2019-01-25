@@ -1,19 +1,20 @@
 package com.demo.chris.newscorpdemo.ui.main
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbumRepo
+import com.nochino.support.networking.vo.Resource
 
+/**
+ * ViewModel containing a [LiveData] object data for a [PhotoAlbum]
+ */
 class PhotoAlbumViewModel : ViewModel() {
 
-    private var photoAlbum = MutableLiveData<PhotoAlbum>()
-
+    // TODO :: Inject with Dagger
     private val photoAlbumRepo = PhotoAlbumRepo()
 
-    fun fetchData():LiveData<PhotoAlbum> {
-        photoAlbum = photoAlbumRepo.getPhotoAlbum()
-        return photoAlbum
+    fun fetchData():LiveData<Resource<PhotoAlbum>> {
+        return photoAlbumRepo.getPhotoAlbum()
     }
 }

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
+import com.nochino.support.networking.vo.Resource
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 /**
@@ -74,8 +75,9 @@ class DetailFragment : Fragment() {
     private fun fetchPhotoAlbum() {
         // Set the observer on ViewModel's LiveData. This Observer will be notified
         // when the underlying data in the ViewModel has changed.
-        photoAlbumViewModel.fetchData().observe(this, Observer<PhotoAlbum> {
-            val albumPhoto: AlbumPhoto? = it.photoAlbumMap[photoKeyId?.toInt()]
+        photoAlbumViewModel.fetchData().observe(this, Observer<Resource<PhotoAlbum>> {
+            // TODO :: Abstract on/handle all observable Resource states!
+            val albumPhoto: AlbumPhoto? = it.data?.photoAlbumMap?.get(photoKeyId?.toInt())
             onAlbumPhotoRetrieved(albumPhoto)
         })
     }
