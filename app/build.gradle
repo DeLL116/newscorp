@@ -95,6 +95,5 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // --> App Library Modules
-    implementation project(':lib_RetroNetworking')
     implementation project(':lib_androidui')
 }
