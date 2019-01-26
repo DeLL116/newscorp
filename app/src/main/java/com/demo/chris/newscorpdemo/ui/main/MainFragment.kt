@@ -18,7 +18,7 @@ import com.nochino.support.androidui.fragments.BaseFragment
 import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelFactory
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
 import com.nochino.support.networking.vo.LoadingResource
-import com.nochino.support.networking.vo.Status
+import com.nochino.support.networking.vo.LoadingStatus
 import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
 
@@ -77,12 +77,12 @@ class MainFragment : BaseFragment() {
                 .incrementTestIdleResourceCounter()
         }.observe(this, Observer<LoadingResource<PhotoAlbum>> {
 
-            // Get the status of the returned observed data
+            // Get the loadingStatus of the returned observed data
             // TODO :: Abstract on/handle all observable LoadingResource states!
-            when (it.status) {
-                Status.LOADING -> Toast.makeText(activity, "Loading", Toast.LENGTH_LONG).show()
-                Status.SUCCESS -> it.data?.let { photoAlbum -> updateAdapter(photoAlbum) }
-                Status.ERROR -> Toast.makeText(activity, "Error Loading", Toast.LENGTH_LONG).show()
+            when (it.loadingStatus) {
+                LoadingStatus.LOADING -> Toast.makeText(activity, "Loading", Toast.LENGTH_LONG).show()
+                LoadingStatus.SUCCESS -> it.data?.let { photoAlbum -> updateAdapter(photoAlbum) }
+                LoadingStatus.ERROR -> Toast.makeText(activity, "Error Loading", Toast.LENGTH_LONG).show()
             }
 
             // Whenever data is returned decrement the idlingResource
