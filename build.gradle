@@ -1,10 +1,8 @@
 buildscript {
 
-    ext {
-        // Load dependency definitions.
-        // This applies the dependencies listed in dependencies.gradle file.
-        apply from: file("/dependencies.gradle")
-    }
+    // Include dependency references so all projects can use the same
+    // library versions
+    apply from: file("/dependencies.gradle")
 
     repositories {
         google()

@@ -19,7 +19,7 @@ ext.configs = [
 
 ext.libs = [
         // --> Kotlin
-        kotlinVersion                       : '1.3.11',
+        kotlinVersion                       : '1.3.20',
 
         // --> jUnit
         junitVersion                        : '4.12',
