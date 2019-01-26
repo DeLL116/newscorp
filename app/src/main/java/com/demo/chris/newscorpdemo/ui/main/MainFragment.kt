@@ -17,7 +17,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.nochino.support.androidui.fragments.BaseFragment
 import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelFactory
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
-import com.nochino.support.networking.vo.Resource
+import com.nochino.support.networking.vo.LoadingResource
 import com.nochino.support.networking.vo.Status
 import kotlinx.android.synthetic.main.main_fragment.*
 import timber.log.Timber
@@ -75,10 +75,10 @@ class MainFragment : BaseFragment() {
             // TODO :: Move to "Staging Debug" Flavor class variant (don't keep in production code)!
             CountingIdlingResourceViewModelFactory.getFragmentViewModel(this@MainFragment)
                 .incrementTestIdleResourceCounter()
-        }.observe(this, Observer<Resource<PhotoAlbum>> {
+        }.observe(this, Observer<LoadingResource<PhotoAlbum>> {
 
             // Get the status of the returned observed data
-            // TODO :: Abstract on/handle all observable Resource states!
+            // TODO :: Abstract on/handle all observable LoadingResource states!
             when (it.status) {
                 Status.LOADING -> Toast.makeText(activity, "Loading", Toast.LENGTH_LONG).show()
                 Status.SUCCESS -> it.data?.let { photoAlbum -> updateAdapter(photoAlbum) }

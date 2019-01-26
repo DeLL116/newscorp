@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.demo.chris.newscorpdemo.NewsCorpDemoApplication
 import com.demo.chris.newscorpdemo.api.ApiPhotos
 import com.nochino.support.networking.repository.NetworkBoundResource
-import com.nochino.support.networking.vo.Resource
+import com.nochino.support.networking.vo.LoadingResource
 
 /**
  * Repository for retrieving and caching data for a [PhotoAlbum]
@@ -25,9 +25,9 @@ class PhotoAlbumRepo {
     private val appExecutors = NewsCorpDemoApplication.instance.appExecutors
 
     /**
-     * @return A [LiveData] [Resource] of type [PhotoAlbum].
+     * @return A [LiveData] [LoadingResource] of type [PhotoAlbum].
      */
-    fun getPhotoAlbum(): LiveData<Resource<PhotoAlbum>> {
+    fun getPhotoAlbum(): LiveData<LoadingResource<PhotoAlbum>> {
         return object : NetworkBoundResource<PhotoAlbum, List<AlbumPhoto>>(appExecutors) {
             override fun saveCallResult(item: List<AlbumPhoto>) {
                 // TODO :: Use DAO Database
