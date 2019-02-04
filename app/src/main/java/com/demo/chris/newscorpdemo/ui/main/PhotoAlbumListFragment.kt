@@ -27,11 +27,11 @@ class PhotoAlbumListFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewMo
             Timber.d("Clicked photo with ID %s", item.id.toString())
 
             // TODO :: Test opening DetailFragment with AlbumPhoto data object and with String ID of AlbumPhoto
-
-            // Open DetailFragment by passing an AlbumPhoto object
-//            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item))
-
             // TODO :: Test providing an ID that does not exist in the data set
+
+            // Open DetailFragment by passing the Parcelable AlbumPhoto object to the Fragment Bundle
+            // findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item))
+
             // Open DetailFragment by passing the ID of an AlbumPhoto.
             // The PhotoAlbum will be retrieved and the AlbumPhoto of the ID will be displayed
             findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item.id.toString()))
