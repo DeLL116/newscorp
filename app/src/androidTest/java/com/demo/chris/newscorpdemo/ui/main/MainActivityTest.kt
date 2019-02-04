@@ -72,8 +72,8 @@ class MainActivityTest {
     }
 
     @Test
-    fun mainFragmentTest() {
-        onMainFragmentDisplayed()
+    fun photoAlbumListFragmentTest() {
+        onPhotoAlbumListFragmentDisplayed()
     }
 
     @Test
@@ -83,9 +83,9 @@ class MainActivityTest {
         onSplashFragmentDisplayed()
 
         // Ensure the Main Fragment is displayed
-        onMainFragmentDisplayed()
+        onPhotoAlbumListFragmentDisplayed()
 
-        // There is a new Fragment (MainFragment) now attached to the Activity
+        // There is a new Fragment (PhotoAlbumListFragment) now attached to the Activity
         // Ensure the current fragment's IdlingResource is added to the IdleRegistry
         registerNewFragmentIdlingResource()
 
@@ -138,36 +138,36 @@ class MainActivityTest {
         onView(withId(R.id.splash_header_secondary_tv)).check(matches(isDescendantOfA(withId(R.id.splash_root_container))))
     }
 
-    private fun onMainFragmentDisplayed() {
-        // To run any tests on MainFragment, Espresso must be halted
-        // until the SplashFragment has exited and MainFragment's root View
+    private fun onPhotoAlbumListFragmentDisplayed() {
+        // To run any tests on PhotoAlbumListFragment, Espresso must be halted
+        // until the SplashFragment has exited and PhotoAlbumListFragment's root View
         // has been inflated / added to the View hierarchy. Increment the
         // Activity's CountingIdlingResourceCounter to instruct Espresso to
         // wait.
 
-        // Instruct Espresso will wait until the View assertion for MainFragment's
+        // Instruct Espresso will wait until the View assertion for PhotoAlbumListFragment's
         // root ViewGroup can be performed
         activityIdlingResourceViewModel.incrementTestIdleResourceCounter()
 
         // ---> activityIdlingResourceViewModel is decremented in
-        //      MainFragment.onViewCreated() to inform Espresso it's OK
-        //      to proceed with view assertion made on main_fragment_root
-        onView(withId(R.id.main_fragment_root)).check(matches(isDisplayed()))
+        //      PhotoAlbumListFragment.onViewCreated() to inform Espresso it's OK
+        //      to proceed with view assertion made on photo_album_list_fragment_root
+        onView(withId(R.id.photo_album_list_fragment_root)).check(matches(isDisplayed()))
     }
 
     private fun onRecyclerViewPopulated() {
-        // To run any tests on MainFragment's RecyclerView, Espresso must be halted
-        // until the RecyclerView has been displayed by MainFragment and populated with
+        // To run any tests on PhotoAlbumListFragment's RecyclerView, Espresso must be halted
+        // until the RecyclerView has been displayed by PhotoAlbumListFragment and populated with
         // data.
         //
-        // MainFragment
+        // PhotoAlbumListFragment
 
-        // Wait until the View assertion for MainFragment's RecyclerView
+        // Wait until the View assertion for PhotoAlbumListFragment's RecyclerView
         // can be performed
         // ---> currentFragmentIdlingResourceViewModel is decremented in
-        //      MainFragment.updateAdapter() to allow Espresso to
+        //      PhotoAlbumListFragment.updateAdapter() to allow Espresso to
         //      proceed with view assertion made in onRecyclerViewPopulated()
-        onView(withId(R.id.main_fragment_rv)).check(matches(isDisplayed()))
+        onView(withId(R.id.photo_album_list_fragment_rv)).check(matches(isDisplayed()))
     }
 
 
@@ -181,7 +181,7 @@ class MainActivityTest {
 
         // Scroll to the RecyclerView to the item at the param position provided.
         // If provided click boolean param is true the item will be clicked as well (see let)
-        onView(withId(R.id.main_fragment_rv))
+        onView(withId(R.id.photo_album_list_fragment_rv))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                     pos, withClick.let {
@@ -197,7 +197,7 @@ class MainActivityTest {
     }
 
     private fun rvTotalCountTest(adapterSize: Int) {
-        onView(withId(R.id.main_fragment_rv)).check(
+        onView(withId(R.id.photo_album_list_fragment_rv)).check(
             matches(
                 RecyclerViewMatchers.withItemCount(adapterSize)
             )
@@ -224,7 +224,7 @@ class MainActivityTest {
             if (newFragIdlingResViewModel !== currentFragmentIdlingResourceViewModel) {
                 currentFragmentIdlingResourceViewModel = newFragIdlingResViewModel
             } else {
-                // TOdo :: Be mean + throw exception...or be nice and silently finish?
+                // TODO :: Be mean + throw exception...or be nice and silently finish?
             }
 
             IdlingRegistry.getInstance().register(currentFragmentIdlingResourceViewModel!!.idlingResource)

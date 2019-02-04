@@ -15,10 +15,10 @@ import com.nochino.support.androidui.fragments.BaseObserverFragment
 import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelFactory
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
 import com.nochino.support.networking.vo.LoadingResource
-import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.fragment_photo_album_list.*
 import timber.log.Timber
 
-class MainFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
+class PhotoAlbumListFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
 
     override val loadingResourceViewModelClass: Class<PhotoAlbumViewModel>?
         get() = PhotoAlbumViewModel::class.java
@@ -44,7 +44,7 @@ class MainFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_photo_album_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,7 +61,7 @@ class MainFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         // Create the LayoutManager for the RecyclerView
-        main_fragment_rv.layoutManager = LinearLayoutManager(activity)
+        photo_album_list_fragment_rv.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun onResume() {
@@ -73,8 +73,7 @@ class MainFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
 
     override fun showSuccess(loadingResource: LoadingResource<PhotoAlbum>) {
         super.showSuccess(loadingResource)
-
-        // Post on the fragment's view to avoid jank
+        // Post on the fragment's view to avoid UI hitching
         view?.post {
             // Update the adapter...non-null asserted call(!!) to data because
             // if "success" is invoked the PhotoAlbum data should exist!
@@ -85,24 +84,26 @@ class MainFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
     private fun updateAdapter(photoAlbum: PhotoAlbum) {
         val adapterItems = photoAlbum.photoAlbumMap.values.toList()
 
-        main_fragment_rv?.let {
-            if (main_fragment_rv.adapter == null) {
+        photo_album_list_fragment_rv?.let {
+            if (photo_album_list_fragment_rv.adapter == null) {
                 // Try to create Adapter the adapter + set the listener
                 this.context?.let {
-                    main_fragment_rv.adapter = AlbumPhotoAdapter(it).apply {
+                    photo_album_list_fragment_rv.adapter = AlbumPhotoAdapter(it).apply {
                         setItems(adapterItems)
                         setListener(adapterClickListener)
                     }.also { albumPhotoAdapter ->
-                        main_fragment_rv.adapter = albumPhotoAdapter
+                        photo_album_list_fragment_rv.adapter = albumPhotoAdapter
                     }
                 }
             } else {
-                (main_fragment_rv.adapter as AlbumPhotoAdapter?)?.setItems(adapterItems)
+                (photo_album_list_fragment_rv.adapter as AlbumPhotoAdapter?)?.setItems(adapterItems)
             }
 
             // TODO :: Move scheduling layout animation elsewhere
             // --> It shouldn't happen every time data is set on the adapter
-            main_fragment_rv.scheduleLayoutAnimation()
+            photo_album_list_fragment_rv.scheduleLayoutAnimation()
         }
+
+        CountingIdlingResourceViewModelFactory.getFragmentViewModel(this).decrementIdleResourceCounter()
     }
 }

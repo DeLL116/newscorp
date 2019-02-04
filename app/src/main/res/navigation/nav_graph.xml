@@ -21,9 +21,9 @@
     </fragment>
 
     <fragment android:id="@+id/mainFragment"
-              android:name="com.demo.chris.newscorpdemo.ui.main.MainFragment"
+              android:name="com.demo.chris.newscorpdemo.ui.main.PhotoAlbumListFragment"
               android:label="main_fragment"
-              tools:layout="@layout/main_fragment">
+              tools:layout="@layout/fragment_photo_album_list">
 
         <action android:id="@+id/detail_action"
                 app:destination="@id/detailFragment"
