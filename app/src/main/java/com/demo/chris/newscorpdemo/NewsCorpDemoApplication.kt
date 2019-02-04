@@ -1,6 +1,6 @@
 package com.demo.chris.newscorpdemo
 
-import com.demo.chris.newscorpdemo.data.photos.PhotoAlbumRepo
+import com.demo.chris.newscorpdemo.data.photo.PhotoAlbumRepo
 import com.google.gson.GsonBuilder
 import com.nochino.support.androidui.AndroidUIApplication
 import com.nochino.support.networking.util.MutableLiveDataCallAdapterFactory
@@ -31,6 +31,10 @@ class NewsCorpDemoApplication: AndroidUIApplication() {
         AppExecutors()
     }
 
+    /**
+     * Single source of truth repository for data associated with the Photos API
+     * TODO :: Use Dagger
+     */
     val photoAlbumRepo: PhotoAlbumRepo by lazy {
         PhotoAlbumRepo()
     }

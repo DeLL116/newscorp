@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.demo.chris.newscorpdemo.R
-import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
-import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
+import com.demo.chris.newscorpdemo.data.photo.AlbumPhoto
+import com.demo.chris.newscorpdemo.data.photo.PhotoAlbum
 import com.demo.chris.newscorpdemo.ui.adapters.AlbumPhotoAdapter
 import com.google.android.material.appbar.AppBarLayout
 import com.nochino.support.androidui.fragments.BaseObserverFragment

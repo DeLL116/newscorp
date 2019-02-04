@@ -1,4 +1,4 @@
-package com.demo.chris.newscorpdemo.data.photos
+package com.demo.chris.newscorpdemo.data.photo
 
 import android.net.Uri
 import android.os.Parcelable

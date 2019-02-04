@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.demo.chris.newscorpdemo.R
-import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
-import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
+import com.demo.chris.newscorpdemo.data.photo.AlbumPhoto
+import com.demo.chris.newscorpdemo.data.photo.PhotoAlbum
 import com.nochino.support.androidui.fragments.BaseObserverFragment
 import com.nochino.support.networking.vo.LoadingResource
 import kotlinx.android.synthetic.main.fragment_detail.*

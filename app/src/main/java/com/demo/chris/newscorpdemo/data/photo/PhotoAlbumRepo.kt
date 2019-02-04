@@ -1,4 +1,4 @@
-package com.demo.chris.newscorpdemo.data.photos
+package com.demo.chris.newscorpdemo.data.photo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

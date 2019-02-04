@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import com.demo.chris.newscorpdemo.R
-import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
+import com.demo.chris.newscorpdemo.data.photo.AlbumPhoto
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
 import com.nochino.support.androidui.views.recyclerview.BaseViewHolder
 import com.nochino.support.androidui.views.recyclerview.adapters.BaseRecyclerViewAdapter

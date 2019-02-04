@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.chris.newscorpdemo.R
-import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
-import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
+import com.demo.chris.newscorpdemo.data.photo.AlbumPhoto
+import com.demo.chris.newscorpdemo.data.photo.PhotoAlbum
 import com.nochino.support.androidui.views.ImageLoadingLayout
 import com.nochino.support.androidui.views.PathSegmentModifier
 import com.nochino.support.androidui.views.SwappableImageCardView

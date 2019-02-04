@@ -1,7 +1,7 @@
 package com.demo.chris.newscorpdemo.api
 
 import androidx.lifecycle.MutableLiveData
-import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
+import com.demo.chris.newscorpdemo.data.photo.AlbumPhoto
 import com.nochino.support.networking.api.ApiResponse
 import retrofit2.http.GET
 
