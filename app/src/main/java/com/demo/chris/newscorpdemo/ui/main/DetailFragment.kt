@@ -4,26 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photos.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
+import com.nochino.support.androidui.fragments.BaseObserverFragment
 import com.nochino.support.networking.vo.LoadingResource
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 /**
- * Fragment that can display an [AlbumPhoto]. The [AlbumPhoto] can be provided
- * directly to the fragment, or the id of an [AlbumPhoto] can be provided and
- * a request to retrieve a [PhotoAlbum] and parse the provided [AlbumPhoto]
- * from the [PhotoAlbum].
+ * Fragment that is an observer of [PhotoAlbum] that can display a single [AlbumPhoto].
+ * The [AlbumPhoto] data object can be provided directly to the fragment's bundle args,
+ * or the id of an [AlbumPhoto] can be provided. In the latter, when this fragment is provided
+ *  the [PhotoAlbum], the associated [AlbumPhoto] will be displayed.
  *
  * TODO :: Write test for when a [PhotoAlbum] is request, but the provided ID of an [AlbumPhoto] is not found in the returned data set
  */
-class DetailFragment : Fragment() {
+class DetailFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
 
-    private lateinit var photoAlbumViewModel: PhotoAlbumViewModel
+    override val loadingResourceViewModelClass: Class<PhotoAlbumViewModel>?
+        get() = PhotoAlbumViewModel::class.java
 
     private var photoKeyId: String? = null
     private var albumPhoto: AlbumPhoto? = null
@@ -42,9 +41,7 @@ class DetailFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detail, container, false)
@@ -52,18 +49,11 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Create the PhotoAlbumViewModel containing the LiveData for the PhotoAlbum
-        // retrieved from the network.
-        photoAlbumViewModel = ViewModelProviders.of(requireActivity()).get(PhotoAlbumViewModel::class.java)
-
         // Null-check here because an AlbumPhoto object can be provided to
         // an instance of this fragment...in which case we can show it immediately
         // (but still observe the ViewModel for changes)
         if (albumPhoto != null) {
             onAlbumPhotoRetrieved(albumPhoto)
-        } else {
-            fetchPhotoAlbum()
         }
     }
 
@@ -72,21 +62,13 @@ class DetailFragment : Fragment() {
         activity?.title = albumPhoto?.title
     }
 
-    private fun fetchPhotoAlbum() {
-        // Set the observer on ViewModel's LiveData. This Observer will be notified
-        // when the underlying data in the ViewModel has changed.
-        photoAlbumViewModel.fetchData().observe(this, Observer<LoadingResource<PhotoAlbum>> {
-            // TODO :: Abstract on/handle all observable LoadingResource states!
-            val albumPhoto: AlbumPhoto? = it.data?.photoAlbumMap?.get(photoKeyId?.toInt())
-            onAlbumPhotoRetrieved(albumPhoto)
-        })
+    override fun showSuccess(loadingResource: LoadingResource<PhotoAlbum>) {
+        onAlbumPhotoRetrieved(loadingResource.data?.photoAlbumMap?.get(photoKeyId?.toInt()))
     }
 
     private fun onAlbumPhotoRetrieved(albumPhoto: AlbumPhoto?) {
-        if (albumPhoto != null) {
-            setAlbumPhoto(albumPhoto)
-        } else {
-            onLoadError()
+        albumPhoto?.let {
+            setAlbumPhoto(it)
         }
     }
 
@@ -104,11 +86,6 @@ class DetailFragment : Fragment() {
 
         // Set texts (action bar title...etc)
         activity?.title = albumPhoto.title
-    }
-
-    // TODO :: Create abstraction
-    private fun onLoadError() {
-
     }
 
     @Suppress("unused")

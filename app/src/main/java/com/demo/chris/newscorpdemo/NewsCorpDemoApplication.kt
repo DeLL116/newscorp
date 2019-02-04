@@ -1,8 +1,9 @@
 package com.demo.chris.newscorpdemo
 
+import com.demo.chris.newscorpdemo.data.photos.PhotoAlbumRepo
 import com.google.gson.GsonBuilder
 import com.nochino.support.androidui.AndroidUIApplication
-import com.nochino.support.networking.util.LiveDataCallAdapterFactory
+import com.nochino.support.networking.util.MutableLiveDataCallAdapterFactory
 import com.nochino.support.networking.RetroNetWorker
 import com.nochino.support.networking.execution.AppExecutors
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,7 +18,7 @@ class NewsCorpDemoApplication: AndroidUIApplication() {
     val retroNetWorker: RetroNetWorker by lazy {
         RetroNetWorker(
             getString(R.string.api_base_url),
-            LiveDataCallAdapterFactory(),
+            MutableLiveDataCallAdapterFactory(),
             GsonConverterFactory.create(GsonBuilder().create())
         )
     }
@@ -28,6 +29,10 @@ class NewsCorpDemoApplication: AndroidUIApplication() {
      */
     val appExecutors: AppExecutors by lazy {
         AppExecutors()
+    }
+
+    val photoAlbumRepo: PhotoAlbumRepo by lazy {
+        PhotoAlbumRepo()
     }
 
     override fun onCreate() {

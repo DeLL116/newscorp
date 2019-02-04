@@ -2,4 +2,9 @@
     <string name="app_name">News Corp Demo</string>
     <string name="app_desc">Kotlin</string>
     <string name="api_base_url" translatable="false">https://jsonplaceholder.typicode.com/</string>
+
+    <!-- Error Fragment -->
+    <string name="error_fragment_message">Error</string>
+    <string name="error_Fragment_retry">Retry</string>
+
 </resources>

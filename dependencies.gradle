@@ -57,10 +57,10 @@ ext.libs = [
         constraintLayoutVersion             : '2.0.0-alpha3',
 
         // --> android.arch.navigation:navigation-ui-ktx:
-        navUiKtxVersion                     : '1.0.0-alpha09',
+        navUiKtxVersion                     : '1.0.0-alpha11',
 
         // --> android.arch.navigation:navigation-fragment-ktx:
-        navFragmentKtxVersion               : '1.0.0-alpha09',
+        navFragmentKtxVersion               : '1.0.0-alpha11',
 
         // --> com.google.android.material:material:1.1.0-alpha02'
         googleMaterialVersion               : '1.1.0-alpha02',

@@ -1,20 +1,20 @@
 package com.demo.chris.newscorpdemo.ui.main
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import com.demo.chris.newscorpdemo.NewsCorpDemoApplication
 import com.demo.chris.newscorpdemo.data.photos.PhotoAlbum
-import com.demo.chris.newscorpdemo.data.photos.PhotoAlbumRepo
+import com.nochino.support.networking.vo.LoadingResourceViewModel
 import com.nochino.support.networking.vo.LoadingResource
 
 /**
  * ViewModel containing a [LiveData] object data for a [PhotoAlbum]
  */
-class PhotoAlbumViewModel : ViewModel() {
+class PhotoAlbumViewModel : LoadingResourceViewModel<PhotoAlbum>() {
 
     // TODO :: Inject with Dagger
-    private val photoAlbumRepo = PhotoAlbumRepo()
+    private val photoAlbumRepo = NewsCorpDemoApplication.instance.photoAlbumRepo
 
-    fun fetchData():LiveData<LoadingResource<PhotoAlbum>> {
+    override fun fetchLiveData(): LiveData<LoadingResource<PhotoAlbum>> {
         return photoAlbumRepo.getPhotoAlbum()
     }
 }
