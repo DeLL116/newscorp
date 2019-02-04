@@ -12,15 +12,20 @@ class SplashFragment : BaseSplashFragment() {
 
     override fun onResume() {
         super.onResume()
-        // After 1.5 seconds go to the next fragment
-        view?.postDelayed(nextFragmentRunnable, 1500)
+        // After the splash screen duration has elapsed go to the next fragment.
+        // If the splash screen duration resource hasn't been defined or can't be derived
+        // a default duration of 1.5 seconds is used.
+        view?.postDelayed(
+            nextFragmentRunnable,
+            view?.context?.resources?.getInteger(R.integer.splash_screen_duration_ms)?.toLong() ?: 1500
+        )
     }
 
     override fun onPause() {
         super.onPause()
 
         // If the fragment is paused before the runnable can execute
-        // remove it.
+        // remove it. The runnable will be re-added in onResume
         view?.removeCallbacks(nextFragmentRunnable)
     }
 
