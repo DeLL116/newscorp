@@ -7,7 +7,7 @@ import com.nochino.support.networking.vo.LoadingResourceViewModel
 import com.nochino.support.networking.vo.LoadingResource
 
 /**
- * ViewModel containing a [LiveData] object data for a [PhotoAlbum]
+ * [LoadingResourceViewModel] containing a [LiveData] object data for a [PhotoAlbum]
  */
 class PhotoAlbumViewModel : LoadingResourceViewModel<PhotoAlbum>() {
 
