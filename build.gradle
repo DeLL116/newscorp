@@ -1,7 +1,6 @@
 buildscript {
 
-    // Include dependency references so all projects can use the same
-    // library versions
+    // Include dependency references so all projects/modules can use the same library versions
     apply from: file("/dependencies.gradle")
 
     repositories {

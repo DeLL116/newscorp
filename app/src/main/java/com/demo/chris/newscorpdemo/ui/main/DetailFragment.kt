@@ -17,7 +17,8 @@ import kotlinx.android.synthetic.main.fragment_detail.*
  * or the id of an [AlbumPhoto] can be provided. In the latter, when this fragment is provided
  *  the [PhotoAlbum], the associated [AlbumPhoto] will be displayed.
  *
- * TODO :: Write test for when a [PhotoAlbum] is request, but the provided ID of an [AlbumPhoto] is not found in the returned data set
+ * TODO :: Write test for when a [PhotoAlbum] is requested, but the ...
+ * --->    provided ID of an [AlbumPhoto] is not found in the returned data set
  */
 class DetailFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
 
@@ -35,8 +36,6 @@ class DetailFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
 
             // Check if an AlbumPhoto object has been provided
             albumPhoto = it.getParcelable(ARG_ALBUM_PHOTO_KEY) as? AlbumPhoto
-
-
             //TODO :: Test if both are provided, and that both ID's match!
         }
     }
@@ -55,6 +54,9 @@ class DetailFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
         if (albumPhoto != null) {
             onAlbumPhotoRetrieved(albumPhoto)
         }
+
+        // Clear the AppBar's ScrollFlags. The AppBar should not move in this fragment.
+        setAppBarScrollFlags(0)
     }
 
     override fun onResume() {

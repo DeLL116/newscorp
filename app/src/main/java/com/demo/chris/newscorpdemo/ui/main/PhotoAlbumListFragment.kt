@@ -10,7 +10,6 @@ import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photo.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photo.PhotoAlbum
 import com.demo.chris.newscorpdemo.ui.adapters.AlbumPhotoAdapter
-import com.google.android.material.appbar.AppBarLayout
 import com.nochino.support.androidui.fragments.BaseObserverFragment
 import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelFactory
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
@@ -36,10 +35,6 @@ class PhotoAlbumListFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewMo
             // Open DetailFragment by passing the ID of an AlbumPhoto.
             // The PhotoAlbum will be retrieved and the AlbumPhoto of the ID will be displayed
             findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item.id.toString()))
-
-            // TODO :: Extract logic to expand the toolbar when leaving a fragment
-            // TODO :: Bug --> Use Kotlin Synthetic View https://issuetracker.google.com/issues/78547457
-            activity?.findViewById<AppBarLayout>(R.id.base_app_bar)?.setExpanded(true, true)
         }
     }
 
@@ -49,8 +44,6 @@ class PhotoAlbumListFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewMo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setAppBarScrollFlags()
 
         activity?.let {
             // TODO :: Move to "Staging Debug" Flavor class variant (don't keep in production code)!
@@ -102,6 +95,10 @@ class PhotoAlbumListFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewMo
             // TODO :: Move scheduling layout animation elsewhere
             // --> It shouldn't happen every time data is set on the adapter
             photo_album_list_fragment_rv.scheduleLayoutAnimation()
+
+            // Ensure the AppBar's scroll flags are set to move out of the way
+            // once the RecyclerView List has been populated
+            setAppBarScrollFlags()
         }
 
         CountingIdlingResourceViewModelFactory.getFragmentViewModel(this).decrementIdleResourceCounter()
