@@ -7,10 +7,18 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.PhotoAlbumListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/photo_album_list_fragment_rv"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/photo_album_list_swipe_refresh_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layoutAnimation="@anim/anim_layout_fall_down"/>
+            android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/photo_album_list_fragment_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layoutAnimation="@anim/anim_layout_fall_down"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

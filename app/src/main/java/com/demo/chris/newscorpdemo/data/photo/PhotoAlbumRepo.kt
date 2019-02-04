@@ -37,8 +37,9 @@ class PhotoAlbumRepo {
 
     /**
      * @return A [LiveData] [LoadingResource] of type [PhotoAlbum].
+     * @param ignoreCache True to explicitly ignore any cached data
      */
-    fun getPhotoAlbum(): LiveData<LoadingResource<PhotoAlbum>> {
+    fun getPhotoAlbum(ignoreCache: Boolean = false): LiveData<LoadingResource<PhotoAlbum>> {
 
         return object : NetworkBoundResource<PhotoAlbum, List<AlbumPhoto>>(appExecutors) {
 
@@ -77,7 +78,7 @@ class PhotoAlbumRepo {
                     item.map { it.id to it }.toMap() as LinkedHashMap<Int, AlbumPhoto>
             }
 
-            override fun shouldFetch(data: PhotoAlbum?) = data == null || data.photoAlbumMap.isEmpty()
+            override fun shouldFetch(data: PhotoAlbum?) = ignoreCache || data == null || data.photoAlbumMap.isEmpty()
 
             override fun loadFromStorage() = photoAlbumLiveData
 

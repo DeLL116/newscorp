@@ -14,7 +14,7 @@ class PhotoAlbumViewModel : LoadingResourceViewModel<PhotoAlbum>() {
     // TODO :: Inject with Dagger
     private val photoAlbumRepo = NewsCorpDemoApplication.instance.photoAlbumRepo
 
-    override fun fetchLiveData(): LiveData<LoadingResource<PhotoAlbum>> {
-        return photoAlbumRepo.getPhotoAlbum()
+    override fun fetchLiveData(ignoreCache: Boolean): LiveData<LoadingResource<PhotoAlbum>> {
+        return photoAlbumRepo.getPhotoAlbum(ignoreCache)
     }
 }

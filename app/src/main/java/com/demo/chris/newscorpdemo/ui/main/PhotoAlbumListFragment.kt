@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.demo.chris.newscorpdemo.R
 import com.demo.chris.newscorpdemo.data.photo.AlbumPhoto
 import com.demo.chris.newscorpdemo.data.photo.PhotoAlbum
@@ -17,7 +18,10 @@ import com.nochino.support.networking.vo.LoadingResource
 import kotlinx.android.synthetic.main.fragment_photo_album_list.*
 import timber.log.Timber
 
-class PhotoAlbumListFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>() {
+class PhotoAlbumListFragment
+    : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>(), SwipeRefreshLayout.OnRefreshListener {
+
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override val loadingResourceViewModelClass: Class<PhotoAlbumViewModel>?
         get() = PhotoAlbumViewModel::class.java
@@ -39,7 +43,17 @@ class PhotoAlbumListFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewMo
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_photo_album_list, container, false)
+        val fragLayout = inflater.inflate(R.layout.fragment_photo_album_list, container, false)
+
+        // TODO :: Move "swipe to refresh" capabilities down to BaseObserverFragment
+        swipeRefreshLayout = fragLayout.findViewById(R.id.photo_album_list_swipe_refresh_container)
+        swipeRefreshLayout.setOnRefreshListener(this)
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+            android.R.color.holo_green_dark,
+            android.R.color.holo_orange_dark,
+            android.R.color.holo_blue_dark
+        )
+        return fragLayout
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,6 +80,10 @@ class PhotoAlbumListFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewMo
 
     override fun showSuccess(loadingResource: LoadingResource<PhotoAlbum>) {
         super.showSuccess(loadingResource)
+
+        // Stopping swipe refresh
+        swipeRefreshLayout.isRefreshing = false
+
         // Post on the fragment's view to avoid UI hitching
         view?.post {
             // Update the adapter...non-null asserted call(!!) to data because
@@ -102,5 +120,11 @@ class PhotoAlbumListFragment : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewMo
         }
 
         CountingIdlingResourceViewModelFactory.getFragmentViewModel(this).decrementIdleResourceCounter()
+    }
+
+    override fun onRefresh() {
+        // Showing refresh animation before making http call
+        swipeRefreshLayout.isRefreshing = true
+        fetchAndObserve(true)
     }
 }
