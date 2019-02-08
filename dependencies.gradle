@@ -24,6 +24,18 @@ ext.libs = [
         // --> jUnit
         junitVersion                        : '4.12',
 
+        // --> org.mockito:mockito-all:
+        mockitoAllVersion                   : '1.10.19',
+
+        // --> org.hamcrest:hamcrest-all:
+        hamcrestAllVersion                  : '1.3',
+
+        // --> org.powermock:powermock-module-junit4:
+        powermockModuleJunit4Version        : '1.6.2',
+
+        // --> org.powermock:powermock-api-mockito:
+        powermockApiMockitoVersion          : '1.6.2',
+
         // --> androidx.test
         rulesVersion                        : '1.1.1',
         runnerVersion                       : '1.1.1',
@@ -40,6 +52,9 @@ ext.libs = [
 
         // --> androidx.lifecycle:lifecycle-extensions:
         lifecycleExtensionsVersion          : '2.1.0-alpha01',
+
+        // --> androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0
+        lifecycleViewModelKtxVersion         : '2.0.0',
 
         // --> androidx.legacy:legacy-support-v4:
         legacySupportV4Version              : '1.0.0',
