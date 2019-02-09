@@ -1,6 +1,3 @@
-[submodule "lib_retronetworking"]
-	path = lib_retronetworking
-	url = https://github.com/DeLL116/lib_retronetworking
 [submodule "lib_androidui"]
 	path = lib_androidui
 	url = https://github.com/DeLL116/lib_androidui

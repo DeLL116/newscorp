@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib_androidui/lib_androidui.iml" filepath="$PROJECT_DIR$/lib_androidui/lib_androidui.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lib_retronetworking/lib_retronetworking.iml" filepath="$PROJECT_DIR$/lib_retronetworking/lib_retronetworking.iml" />
       <module fileurl="file://$PROJECT_DIR$/newscorp.iml" filepath="$PROJECT_DIR$/newscorp.iml" />
     </modules>
   </component>
