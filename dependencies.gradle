@@ -36,10 +36,13 @@ ext.libs = [
         // --> org.powermock:powermock-api-mockito:
         powermockApiMockitoVersion          : '1.6.2',
 
+        // --> androidx.core
+        coreKtxVersion                      : '1.1.0-alpha04',
+
         // --> androidx.test
-        rulesVersion                        : '1.1.1',
-        runnerVersion                       : '1.1.1',
-        coreKtxVersion                      : '1.1.0',
+        testRulesVersion                    : '1.1.1',
+        testRunnerVersion                   : '1.1.1',
+        testCoreKtxVersion                  : '1.1.0',
 
         // --> androidx.test.ext
         junitAndroidVersion                 : '1.1.0',
