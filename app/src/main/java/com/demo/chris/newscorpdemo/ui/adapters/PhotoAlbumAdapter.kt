@@ -11,7 +11,6 @@ import com.demo.chris.newscorpdemo.data.photo.PhotoAlbum
 import com.nochino.support.androidui.views.ImageLoadingLayout
 import com.nochino.support.androidui.views.PathSegmentModifier
 import com.nochino.support.androidui.views.SwappableImageCardView
-import kotlinx.android.synthetic.main.recycler_view_card_item_layout.view.*
 import timber.log.Timber
 
 @Deprecated("Use AlbumPhotoAdapter")
@@ -53,7 +52,7 @@ class PhotoAlbumAdapter(
     class ImageHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         private lateinit var albumPhoto: AlbumPhoto
-        private val swappableImageCardView: SwappableImageCardView = itemView.rv_card_view
+        private val swappableImageCardView: SwappableImageCardView = itemView.findViewById(R.id.rv_card_view)
         private var externalPhotoItemClickListener: OnItemClickListener? = null
         private var photoItemClickListener = View.OnClickListener {
             Timber.d("Clicked photo with ID %s", albumPhoto.id.toString())

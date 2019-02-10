@@ -10,7 +10,6 @@ import com.nochino.support.androidui.views.recyclerview.BaseViewHolder
 import com.nochino.support.androidui.views.recyclerview.adapters.BaseRecyclerViewAdapter
 import com.nochino.support.androidui.views.ImageLoadingLayout
 import com.nochino.support.androidui.views.SwappableImageCardView
-import kotlinx.android.synthetic.main.recycler_view_card_item_layout.view.*
 
 class AlbumPhotoAdapter(context: Context)
     : BaseRecyclerViewAdapter<AlbumPhoto, BaseRecyclerViewClickListener<AlbumPhoto>, AlbumPhotoViewHolder>
@@ -35,7 +34,7 @@ class AlbumPhotoViewHolder(itemView: View)
     : BaseViewHolder<AlbumPhoto, BaseRecyclerViewClickListener<AlbumPhoto>>
     (itemView) {
 
-    private val swappableImageCardView: SwappableImageCardView = itemView.rv_card_view
+    private val swappableImageCardView: SwappableImageCardView = itemView.findViewById(R.id.rv_card_view)
 
     override fun onBind(item: AlbumPhoto, listener: BaseRecyclerViewClickListener<AlbumPhoto>?) {
         swappableImageCardView.setOnClickListener{ listener?.onItemClicked(item) }
