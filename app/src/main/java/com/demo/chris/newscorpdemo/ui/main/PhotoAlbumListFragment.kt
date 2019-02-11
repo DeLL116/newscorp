@@ -18,29 +18,15 @@ import com.nochino.support.networking.vo.LoadingResource
 import kotlinx.android.synthetic.main.fragment_photo_album_list.*
 import timber.log.Timber
 
-class PhotoAlbumListFragment
-    : BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>(), SwipeRefreshLayout.OnRefreshListener {
+class PhotoAlbumListFragment :
+    BaseObserverFragment<PhotoAlbum, PhotoAlbumViewModel>(),
+    SwipeRefreshLayout.OnRefreshListener,
+    BaseRecyclerViewClickListener<AlbumPhoto> {
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override val loadingResourceViewModelClass: Class<PhotoAlbumViewModel>?
         get() = PhotoAlbumViewModel::class.java
-
-    private val adapterClickListener = object : BaseRecyclerViewClickListener<AlbumPhoto> {
-        override fun onItemClicked(item: AlbumPhoto) {
-            Timber.d("Clicked photo with ID %s", item.id.toString())
-
-            // TODO :: Test opening DetailFragment with AlbumPhoto data object and with String ID of AlbumPhoto
-            // TODO :: Test providing an ID that does not exist in the data set
-
-            // Open DetailFragment by passing the Parcelable AlbumPhoto object to the Fragment Bundle
-            // findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item))
-
-            // Open DetailFragment by passing the ID of an AlbumPhoto.
-            // The PhotoAlbum will be retrieved and the AlbumPhoto of the ID will be displayed
-            findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item.id.toString()))
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val fragLayout = inflater.inflate(R.layout.fragment_photo_album_list, container, false)
@@ -101,7 +87,7 @@ class PhotoAlbumListFragment
                 this.context?.let {
                     photo_album_list_fragment_rv.adapter = AlbumPhotoAdapter(it).apply {
                         setItems(adapterItems)
-                        setListener(adapterClickListener)
+                        setListener(this@PhotoAlbumListFragment)
                     }.also { albumPhotoAdapter ->
                         photo_album_list_fragment_rv.adapter = albumPhotoAdapter
                     }
@@ -126,5 +112,19 @@ class PhotoAlbumListFragment
         // Showing refresh animation before making http call
         swipeRefreshLayout.isRefreshing = true
         fetchAndObserve(true)
+    }
+
+    override fun onItemClicked(item: AlbumPhoto) {
+        Timber.d("Clicked photo with ID %s", item.id.toString())
+
+        // TODO :: Test opening DetailFragment with AlbumPhoto data object and with String ID of AlbumPhoto
+        // TODO :: Test providing an ID that does not exist in the data set
+
+        // Open DetailFragment by passing the Parcelable AlbumPhoto object to the Fragment Bundle
+        // findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item))
+
+        // Open DetailFragment by passing the ID of an AlbumPhoto.
+        // The PhotoAlbum will be retrieved and the AlbumPhoto of the ID will be displayed
+        findNavController().navigate(R.id.detail_action, DetailFragment.buildBundle(item.id.toString()))
     }
 }
