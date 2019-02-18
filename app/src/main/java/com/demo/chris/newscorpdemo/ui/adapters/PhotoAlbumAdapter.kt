@@ -49,7 +49,7 @@ class PhotoAlbumAdapter(
         return photoAlbum.photoAlbumMap.size
     }
 
-    class ImageHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class ImageHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         private lateinit var albumPhoto: AlbumPhoto
         private val swappableImageCardView: SwappableImageCardView = itemView.findViewById(R.id.rv_card_view)
