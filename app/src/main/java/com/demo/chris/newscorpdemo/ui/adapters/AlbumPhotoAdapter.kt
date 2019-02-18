@@ -15,7 +15,7 @@ class AlbumPhotoAdapter(context: Context)
     : BaseRecyclerViewAdapter<AlbumPhoto, BaseRecyclerViewClickListener<AlbumPhoto>, AlbumPhotoViewHolder>
     (context) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumPhotoViewHolder {
+    override fun getViewHolder(parent: ViewGroup, viewType: Int): AlbumPhotoViewHolder {
         return AlbumPhotoViewHolder(inflate(R.layout.recycler_view_card_item_layout, parent))
     }
 
